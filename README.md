@@ -1,74 +1,64 @@
-# Oleksandr Portfolio Workspace
+# Full-Stack Portfolio — Angular SSR + NestJS
 
-Angular SSR + SCSS frontend, NestJS API, and Telegram lead-intake integration.
+Професійне портфоліо Олександра Васильєва — Full-Stack / Frontend-leaning розробника з фокусом на Angular, TypeScript, Node.js, NestJS, SSR, архітектуру, продуктивність та якість коду.
 
-## Structure
+Проєкт створений як повноцінний full-stack portfolio website для презентації досвіду, залучення клієнтів, комунікації з роботодавцями та демонстрації практичного підходу до розробки.
+
+---
+
+## Мета проєкту
+
+Цей проєкт має показати не лише резюме, а реальний технічний рівень через робочий full-stack продукт.
+
+Основні цілі:
+
+- презентувати досвід у Frontend / Full-Stack розробці;
+- показати роботу з Angular SSR та NestJS;
+- створити швидкий, SEO-friendly та адаптивний сайт;
+- реалізувати lead form для заявок;
+- інтегрувати Telegram для отримання повідомлень;
+- підготувати основу для подальшого розвитку портфоліо.
+
+---
+
+## Технології
+
+### Frontend
+
+- Angular
+- Angular SSR
+- TypeScript
+- SCSS
+- Responsive UI
+- SEO-friendly структура
+
+### Backend
+
+- NestJS
+- Node.js
+- TypeScript
+- REST API
+- Telegram Bot API
+- Lead intake flow
+
+### Tooling
+
+- npm scripts
+- Git / GitHub
+- root-level dev commands
+- local development helpers
+
+---
+
+## Структура проєкту
 
 ```txt
 portfolio/
-  package.json          # root scripts
-  scripts/              # app/dev/build/clear helpers
-  portfolio-web/        # Angular SSR + SCSS frontend
-  portfolio-api/        # NestJS API + Telegram service
-```
-
-## First run after cloning
-
-From the root folder:
-
-```bash
-npm run app
-```
-
-This will:
-
-1. install dependencies in `portfolio-api`
-2. install dependencies in `portfolio-web`
-3. build both projects
-4. start API + Web in dev mode
-
-Local URLs:
-
-```txt
-Web: http://localhost:4200
-API: http://localhost:3333/api
-```
-
-## Useful commands
-
-```bash
-npm run install:all   # install FE + BE deps
-npm run build         # build FE + BE
-npm run dev:all       # start FE + BE in background
-npm run dev:status    # show running dev processes
-npm run dev:logs      # show last logs
-npm run dev:stop      # stop dev processes
-npm run app:clear     # clean node_modules/dist/cache/logs before archiving
-```
-
-## Telegram setup
-
-Copy the API env example:
-
-```bash
-cp portfolio-api/.env.example portfolio-api/.env
-```
-
-Then fill:
-
-```env
-PORT=3333
-WEB_ORIGIN=http://localhost:4200
-TELEGRAM_BOT_TOKEN=your_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
-```
-
-Do not commit `.env`.
-
-## Before sending archive
-
-```bash
-npm run app:clear
-```
-
-Then archive the `portfolio` folder.
+  package.json
+  scripts/
+  portfolio-web/
+  portfolio-api/
+  README.md
+  TASKS.md
+  .env.example
+  .gitignore
