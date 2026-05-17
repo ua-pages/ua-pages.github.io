@@ -1,0 +1,66 @@
+<form class="lead-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field-grid">
+    <label>
+      Your name
+      <input type="text" formControlName="name" placeholder="Name / company" />
+    </label>
+
+    <label>
+      Contact
+      <input type="text" formControlName="contact" placeholder="Telegram, email or LinkedIn" />
+    </label>
+  </div>
+
+  <div class="field-grid">
+    <label>
+      Service
+      <select formControlName="service">
+        <option>Frontend / Full-stack development</option>
+        <option>Angular architecture</option>
+        <option>Legacy migration</option>
+        <option>Performance audit</option>
+        <option>Team extension / code review</option>
+        <option>Technical consultation</option>
+      </select>
+    </label>
+
+    <label>
+      Budget
+      <select formControlName="budget">
+        <option>Not sure yet</option>
+        <option>Up to $500</option>
+        <option>$500 — $1500</option>
+        <option>$1500 — $3000</option>
+        <option>$3000+</option>
+      </select>
+    </label>
+  </div>
+
+  <label>
+    Timeline
+    <select formControlName="timeline">
+      <option>Flexible</option>
+      <option>This week</option>
+      <option>1—2 weeks</option>
+      <option>This month</option>
+      <option>Long-term collaboration</option>
+    </select>
+  </label>
+
+  <label>
+    Project context
+    <textarea formControlName="message" rows="5" placeholder="Tell me what you want to build, fix or improve"></textarea>
+  </label>
+
+  @if (isSent) {
+    <p class="success">Request sent. I will get back to you soon.</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  <button type="submit" [disabled]="isSubmitting">
+    {{ isSubmitting ? 'Sending...' : 'Send project request' }}
+  </button>
+</form>

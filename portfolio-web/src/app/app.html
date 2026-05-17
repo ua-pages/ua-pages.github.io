@@ -1,0 +1,124 @@
+<main class="page-shell">
+  <nav class="topbar" aria-label="Primary navigation">
+    <a class="brand" href="#top" aria-label="Oleksandr Vasyliev home">
+      <span>OV</span>
+      <strong>Oleksandr Vasyliev</strong>
+    </a>
+
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#leadflow">LeadFlow Bot</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section id="top" class="hero section">
+    <div class="hero-copy">
+      <p class="eyebrow">Angular SSR · NestJS · Product-minded engineering</p>
+      <h1>{{ profile.role }}</h1>
+      <p class="lead">{{ profile.headline }}</p>
+      <p class="summary">{{ profile.summary }}</p>
+
+      <div class="hero-actions">
+        <a class="button primary" href="#contact">Start a project</a>
+        <a class="button ghost" href="mailto:{{ profile.email }}">Email me</a>
+      </div>
+
+      <div class="meta-row">
+        <span>{{ profile.location }}</span>
+        <span>{{ profile.telegram }}</span>
+        <a [href]="profile.github" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </div>
+
+    <aside class="signal-card" aria-label="Professional highlights">
+      <div class="availability">Open to Senior / Tech Lead / Angular roles</div>
+      <ul>
+        @for (item of highlights; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    </aside>
+  </section>
+
+  <section class="section stack-strip" aria-label="Technology stack">
+    @for (item of stack; track item) {
+      <span>{{ item }}</span>
+    }
+  </section>
+
+  <section id="services" class="section section-grid">
+    <div class="section-heading">
+      <p class="eyebrow">What I can help with</p>
+      <h2>Maintainable web products, not just screens.</h2>
+      <p>
+        I focus on architecture, stability and delivery — the parts that keep a product useful after the first release.
+      </p>
+    </div>
+
+    <div class="cards-grid">
+      @for (service of services; track service.title) {
+        <article class="glass-card">
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.text }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="leadflow" class="section leadflow">
+    <div>
+      <p class="eyebrow">Portfolio feature</p>
+      <h2>LeadFlow Telegram Bot</h2>
+      <p>
+        This portfolio is also a small product: the contact form sends structured project requests to a Telegram bot via a NestJS API.
+      </p>
+    </div>
+
+    <div class="bot-flow" aria-label="LeadFlow process">
+      <span>Visitor</span>
+      <strong>→</strong>
+      <span>Angular form</span>
+      <strong>→</strong>
+      <span>NestJS API</span>
+      <strong>→</strong>
+      <span>Telegram lead</span>
+    </div>
+  </section>
+
+  <section id="experience" class="section section-grid">
+    <div class="section-heading">
+      <p class="eyebrow">Experience</p>
+      <h2>Frontend-leaning full-stack background.</h2>
+      <p>
+        10+ years across freelance, product and enterprise environments with ownership of architecture, code quality and delivery.
+      </p>
+    </div>
+
+    <div class="timeline">
+      @for (item of experience; track item.company) {
+        <article>
+          <div>
+            <span>{{ item.period }}</span>
+            <h3>{{ item.role }}</h3>
+            <strong>{{ item.company }}</strong>
+          </div>
+          <p>{{ item.text }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="contact" class="section contact-section">
+    <div class="section-heading">
+      <p class="eyebrow">Contact</p>
+      <h2>Have a product, team or legacy frontend that needs help?</h2>
+      <p>
+        Send a short request. The backend will forward it to Telegram, so it is easy to process as a warm lead.
+      </p>
+    </div>
+
+    <app-lead-intake />
+  </section>
+</main>

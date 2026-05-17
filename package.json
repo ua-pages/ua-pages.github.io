@@ -1,0 +1,20 @@
+{
+  "name": "oleksandr-portfolio-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "app": "node scripts/app.mjs",
+    "install:all": "node scripts/install-all.mjs",
+    "build": "node scripts/build-all.mjs",
+    "build:all": "node scripts/build-all.mjs",
+    "dev:all": "node scripts/dev-all.mjs",
+    "dev:run": "node scripts/dev-all.mjs",
+    "dev:stop": "node scripts/dev-stop.mjs",
+    "dev:status": "node scripts/dev-status.mjs",
+    "dev:logs": "node scripts/dev-logs.mjs",
+    "clean": "node scripts/app-clear.mjs",
+    "app:clear": "node scripts/app-clear.mjs",
+    "app:fresh": "node scripts/app-fresh.mjs"
+  }
+}

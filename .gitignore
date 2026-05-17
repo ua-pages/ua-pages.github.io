@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.angular/
+.dev-logs/
+.dev-pids.json
+.DS_Store
+__MACOSX/
+.cache/
+.vite/
+.env
+*.log
