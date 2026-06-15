@@ -574,7 +574,10 @@ export class AppRoot extends HTMLElement {
     this.shadowRoot.getElementById('contactBtn').addEventListener('click', (e) => {
       e.preventDefault();
       const el = this.shadowRoot.getElementById('contact');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     });
     this.shadowRoot.getElementById('location').textContent = profile.location;
     this.shadowRoot.getElementById('phone').textContent = profile.phone;
