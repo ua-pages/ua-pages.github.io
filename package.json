@@ -1,0 +1,21 @@
+{
+  "name": "skanda.dev",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "NODE_ENV=production node server.js",
+    "start:dev": "NODE_ENV=development node --watch server.js"
+  },
+  "description": "Personal portfolio site and contact form for Oleksandr Vasyliev (skanda.dev)",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ua-pages/skanda.dev.git"
+  },
+  "homepage": "https://ua-pages.github.io/skanda.dev/",
+  "author": "Oleksandr Vasyliev <oleksandr.morlock@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

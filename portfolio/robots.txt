@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fullstack-portfolio-angular-nest-ve.vercel.app/sitemap.xml
+
