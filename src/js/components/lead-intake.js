@@ -134,13 +134,21 @@ template.innerHTML = `
 
     <label>
       Бюджет
-      <select name="budget">
+      <select name="budget" class="budget-select">
         <option>Поки не визначено</option>
         <option>До $500</option>
         <option>$500 — $1500</option>
         <option>$1500 — $3000</option>
         <option>$3000+</option>
+        <option value="custom">Ввести суму (UAH)</option>
       </select>
+      <div class="custom-budget" style="display:none; margin-top:0.6rem;">
+        <input type="number" name="customBudget" placeholder="Наприклад 5000" min="0" />
+        <select name="customCurrency" style="margin-top:0.5rem; width:100%;">
+          <option value="UAH">UAH</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
     </label>
 
     <label>
@@ -177,6 +185,11 @@ export class LeadIntake extends HTMLElement {
     this.isSubmitting = false;
 
     this.form.addEventListener('submit', (e) => this.#submit(e));
+    this.budgetSelect = this.shadowRoot.querySelector('.budget-select');
+    this.customContainer = this.shadowRoot.querySelector('.custom-budget');
+    this.customBudgetInput = this.shadowRoot.querySelector('input[name="customBudget"]');
+    this.customCurrencySelect = this.shadowRoot.querySelector('select[name="customCurrency"]');
+    this.budgetSelect.addEventListener('change', () => this.#onBudgetChange());
   }
 
   async #submit(e) {
@@ -195,11 +208,25 @@ export class LeadIntake extends HTMLElement {
     this.status.innerHTML = '';
 
     const data = new FormData(this.form);
+    let budgetValue = data.get('budget');
+    let currency = null;
+    if (budgetValue === 'custom') {
+      const custom = this.customBudgetInput?.value;
+      const cur = this.customCurrencySelect?.value || 'UAH';
+      if (custom) {
+        budgetValue = `${custom} ${cur}`;
+        currency = cur;
+      } else {
+        budgetValue = 'Поки не визначено';
+      }
+    }
+
     const payload = {
       name: data.get('name'),
       contact: data.get('contact'),
       service: data.get('service'),
-      budget: data.get('budget'),
+      budget: budgetValue,
+      currency: currency,
       timeline: data.get('timeline'),
       message: data.get('message'),
     };
@@ -214,6 +241,15 @@ export class LeadIntake extends HTMLElement {
       this.isSubmitting = false;
       this.submitBtn.disabled = false;
       this.submitBtn.textContent = 'Надіслати заявку';
+    }
+  }
+
+  #onBudgetChange() {
+    const val = this.budgetSelect.value;
+    if (val === 'custom') {
+      this.customContainer.style.display = 'block';
+    } else {
+      this.customContainer.style.display = 'none';
     }
   }
 }
