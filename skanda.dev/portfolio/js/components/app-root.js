@@ -312,7 +312,7 @@ template.innerHTML = `
 
     .contact-section {
       display: grid;
-      grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(260px, 0.6fr) minmax(340px, 1fr);
       gap: 2rem;
       padding: clamp(1.25rem, 4vw, 2.4rem);
       border-radius: 1.8rem;

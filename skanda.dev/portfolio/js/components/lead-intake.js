@@ -26,13 +26,27 @@ template.innerHTML = `
       font-size: 0.86rem;
     }
 
-    input, select, textarea {
+    input, textarea {
       width: 100%;
       border: 1px solid rgba(148, 163, 184, 0.26);
       border-radius: 0.9rem;
       background: rgba(2, 6, 23, 0.52);
       color: #f8fafc;
       font: inherit;
+      padding: 0.9rem 1.1rem;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      box-sizing: border-box;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 0.9rem;
+      background: rgba(2, 6, 23, 0.52);
+      color: #f8fafc;
+      font: inherit;
+      font-size: 0.95rem;
       padding: 0.9rem 1.1rem;
       outline: none;
       transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
