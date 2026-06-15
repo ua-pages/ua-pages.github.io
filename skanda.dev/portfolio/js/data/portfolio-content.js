@@ -66,6 +66,19 @@ export const problems = [
   },
 ];
 
+export const projects = [
+  {
+    title: 'Tarot UA',
+    url: 'https://ua-pages.github.io/tarot-ua',
+    description: 'Онлайн розклади Таро українською: значення всіх 78 карт, перевернуті позиції, ШІ-тлумачення, щоденник та публічні посилання.',
+    screenshots: [
+      './assets/images/tarot-main.png',
+      './assets/images/tarot-spread.png',
+      './assets/images/tarot-cards.png',
+    ],
+  },
+];
+
 export const stack = [
   'Веб-застосунки',
   'Клієнтська частина',

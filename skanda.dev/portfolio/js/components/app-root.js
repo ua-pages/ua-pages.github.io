@@ -1,4 +1,4 @@
-import { profile, highlights, skills, problems, stack } from '../data/portfolio-content.js';
+import { profile, highlights, skills, problems, projects, stack } from '../data/portfolio-content.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -320,6 +320,107 @@ template.innerHTML = `
       line-height: 1.72;
     }
 
+    .projects-list {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
+      background: var(--surface, rgba(15, 23, 42, 0.62));
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
+      backdrop-filter: blur(18px);
+      border-radius: 1.4rem;
+      padding: 1.3rem;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-header h3 {
+      margin: 0;
+    }
+
+    .project-link {
+      color: var(--cyan, #67e8f9);
+      font-weight: 700;
+      font-size: 0.86rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    .project-desc {
+      margin: 0 0 1rem;
+      color: var(--muted, #94a3b8);
+      line-height: 1.72;
+    }
+
+    .carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-track img {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 340px;
+      border-radius: 0.8rem;
+      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
+      scroll-snap-align: start;
+      object-fit: cover;
+      aspect-ratio: 16 / 10;
+    }
+
+    .carousel-btn {
+      flex-shrink: 0;
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid var(--line, rgba(148, 163, 184, 0.24));
+      border-radius: 50%;
+      background: rgba(2, 6, 23, 0.7);
+      color: #cbd5e1;
+      font-size: 1rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
     .contact-section {
       display: grid;
       grid-template-columns: minmax(260px, 0.6fr) minmax(340px, 1fr);
@@ -573,6 +674,7 @@ template.innerHTML = `
         <a href="#skills">Навички</a>
         <a href="#leadflow">Telegram flow</a>
         <a href="#experience">Досвід</a>
+        <a href="#portfolio">Портфоліо</a>
         <a href="#contact">Контакти</a>
       </div>
     </nav>
@@ -638,6 +740,15 @@ template.innerHTML = `
         <p>Проблеми та виклики, з якими стикався в реальних проєктах — від міграції legacy до архітектурних рішень і технічного лідерства.</p>
       </div>
       <div class="problems" id="problemsList"></div>
+    </section>
+
+    <section id="portfolio" class="section section-grid">
+      <div class="section-heading">
+        <p class="eyebrow">Портфоліо</p>
+        <h2>Проєкти, які я створив.</h2>
+        <p>Pet-проєкти, експерименти та інструменти, які показують підхід до коду, архітектури та користувацького досвіду.</p>
+      </div>
+      <div class="projects-list" id="projectsList"></div>
     </section>
 
     <section id="contact" class="section contact-section">
@@ -749,6 +860,43 @@ export class AppRoot extends HTMLElement {
         <p>${p.text}</p>
       `;
       list.appendChild(article);
+    });
+
+    const projectsList = this.shadowRoot.getElementById('projectsList');
+    projects.forEach((p, idx) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+
+      let screenshotsHtml = '';
+      if (p.screenshots && p.screenshots.length) {
+        const imgs = p.screenshots.map(s => `<img src="${s}" alt="${p.title}" loading="lazy" />`).join('');
+        screenshotsHtml = `
+          <div class="carousel">
+            <button class="carousel-btn" data-prev="${idx}">‹</button>
+            <div class="carousel-track" data-track="${idx}">${imgs}</div>
+            <button class="carousel-btn" data-next="${idx}">›</button>
+          </div>`;
+      }
+
+      card.innerHTML = `
+        <div class="project-header">
+          <h3>${p.title}</h3>
+          <a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">Відкрити проєкт →</a>
+        </div>
+        <p class="project-desc">${p.description}</p>
+        ${screenshotsHtml}
+      `;
+      projectsList.appendChild(card);
+    });
+
+    this.shadowRoot.addEventListener('click', (e) => {
+      const btn = e.target.closest('.carousel-btn');
+      if (!btn) return;
+      const idx = btn.dataset.prev || btn.dataset.next;
+      const track = this.shadowRoot.querySelector(`[data-track="${idx}"]`);
+      if (!track) return;
+      const scroll = btn.dataset.prev ? -track.clientWidth : track.clientWidth;
+      track.scrollBy({ left: scroll, behavior: 'smooth' });
     });
   }
 }
