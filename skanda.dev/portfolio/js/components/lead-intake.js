@@ -5,6 +5,7 @@ template.innerHTML = `
   <style>
     :host {
       display: block;
+      min-width: 0;
     }
 
     .lead-form {
@@ -15,15 +16,17 @@ template.innerHTML = `
       border-radius: 1.4rem;
       background: rgba(15, 23, 42, 0.72);
       box-shadow: 0 24px 80px rgba(2, 6, 23, 0.35);
+      min-width: 0;
     }
 
     .field-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      min-width: 0;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 800px) {
       .field-grid {
         grid-template-columns: 1fr;
       }
