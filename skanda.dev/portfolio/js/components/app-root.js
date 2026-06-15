@@ -7,9 +7,21 @@ template.innerHTML = `
       display: block;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.22), transparent 28rem),
-        radial-gradient(circle at 78% 4%, rgba(168, 85, 247, 0.2), transparent 26rem),
+        radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.18), transparent 28rem),
+        radial-gradient(circle at 78% 4%, rgba(168, 85, 247, 0.16), transparent 26rem),
         linear-gradient(180deg, #020617 0%, #0f172a 46%, #111827 100%);
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; translate: 0 1.5rem; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+
+    .hero-copy {
+      animation: fade-up 0.7s ease-out both;
+    }
+    .signal-card {
+      animation: fade-up 0.7s ease-out 0.15s both;
     }
 
     .page-shell {
@@ -82,6 +94,18 @@ template.innerHTML = `
       gap: 2rem;
       align-items: center;
       min-height: calc(100vh - 7rem);
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      left: -8%;
+      width: 36rem;
+      height: 36rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.08), transparent 70%);
+      pointer-events: none;
     }
 
     .eyebrow {
@@ -177,6 +201,23 @@ template.innerHTML = `
       border: 1px solid rgba(148, 163, 184, 0.16);
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.48);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .meta-row span:hover, .meta-row a:hover {
+      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+      box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
     }
 
     .signal-card, .glass-card, .leadflow, .timeline article, .contact-section {
@@ -199,17 +240,31 @@ template.innerHTML = `
 
     .signal-card ul {
       display: grid;
-      gap: 0.8rem;
+      gap: 0.6rem;
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .signal-card li {
-      padding: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.75rem 0.9rem;
       border-radius: 1rem;
       color: #dbeafe;
       background: rgba(2, 6, 23, 0.48);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .signal-card li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #67e8f9, #a78bfa);
     }
 
     .stack-strip {
@@ -453,6 +508,7 @@ template.innerHTML = `
     </nav>
 
     <section id="top" class="hero section">
+      <div class="hero-glow"></div>
       <div class="hero-copy">
         <p class="eyebrow">Веб-розробка · Full-stack · Інженерний підхід до продукту</p>
         <h1 id="role"></h1>
@@ -465,7 +521,7 @@ template.innerHTML = `
         </div>
 
         <div class="meta-row">
-          <span id="location"></span>
+          <span id="location"><span class="status-dot"></span></span>
           <span id="phone"></span>
           <span id="telegram"></span>
           <a id="githubLink" target="_blank" rel="noreferrer">GitHub</a>
@@ -588,7 +644,8 @@ export class AppRoot extends HTMLElement {
         });
       }
     });
-    this.shadowRoot.getElementById('location').textContent = profile.location;
+    const loc = this.shadowRoot.getElementById('location');
+    loc.appendChild(document.createTextNode(profile.location));
     this.shadowRoot.getElementById('phone').textContent = profile.phone;
     this.shadowRoot.getElementById('telegram').textContent = profile.telegram;
     this.shadowRoot.getElementById('githubLink').href = profile.github;
