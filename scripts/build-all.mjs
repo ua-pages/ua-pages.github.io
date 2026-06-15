@@ -2,7 +2,7 @@ import { apiDir, webDir, ensurePackageJson, ensureProjectDirs } from './_utils.m
 
 ensureProjectDirs();
 ensurePackageJson(apiDir, 'portfolio-api');
-ensurePackageJson(webDir, 'portfolio-web');
+ensurePackageJson(webDir, 'skanda.dev');
 
 console.log('\n✓ No build step required — projects are plain JS/WebComponents.');
 console.log('  Start dev servers with: npm run dev:all');

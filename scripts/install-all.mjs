@@ -2,7 +2,7 @@ import { apiDir, webDir, ensurePackageJson, ensureProjectDirs, run } from './_ut
 
 ensureProjectDirs();
 ensurePackageJson(apiDir, 'portfolio-api');
-ensurePackageJson(webDir, 'portfolio-web');
+ensurePackageJson(webDir, 'skanda.dev');
 
 run('npm', ['install'], apiDir, 'Installing API dependencies');
 run('npm', ['install'], webDir, 'Installing Web dependencies');

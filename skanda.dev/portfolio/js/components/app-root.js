@@ -509,7 +509,7 @@ template.innerHTML = `
             <p>Скануйте QR-код або перейдіть за посиланням, щоб написати мені напряму в Telegram.</p>
             <a class="telegram-link" href="https://t.me/copcoopallie" target="_blank" rel="noreferrer">@copcoopallie</a>
           </div>
-          <img class="telegram-qr-image" src="https://m00rlock.github.io/fullstack-portfolio-ua/assets/images/telegram-contact-qr.png" alt="QR-код для переходу в Telegram" />
+          <img class="telegram-qr-image" src="./assets/images/telegram-contact-qr.png" alt="QR-код для переходу в Telegram" />
         </div>
         <lead-intake></lead-intake>
       </div>

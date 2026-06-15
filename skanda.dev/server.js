@@ -4,7 +4,7 @@ import { extname, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PUBLIC = resolve(__dirname, 'public');
+const PUBLIC = resolve(__dirname, 'portfolio');
 const PORT = Number(process.env.PORT || 4200);
 
 const MIME = {

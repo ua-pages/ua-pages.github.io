@@ -4,17 +4,17 @@ import { spawn, spawnSync } from 'node:child_process';
 
 export const root = process.cwd();
 export const apiDir = path.join(root, 'portfolio-api');
-export const webDir = path.join(root, 'portfolio-web');
+export const webDir = path.join(root, 'skanda.dev');
 export const logsDir = path.join(root, '.dev-logs');
 export const pidsFile = path.join(root, '.dev-pids.json');
 
 export function ensureProjectDirs() {
   const missing = [];
   if (!fs.existsSync(apiDir)) missing.push('portfolio-api');
-  if (!fs.existsSync(webDir)) missing.push('portfolio-web');
+  if (!fs.existsSync(webDir)) missing.push('skanda.dev');
   if (missing.length) {
     console.error(`Missing project folder(s): ${missing.join(', ')}`);
-    console.error('Run this command from the root folder that contains portfolio-api and portfolio-web.');
+    console.error('Run this command from the root folder that contains portfolio-api and skanda.dev.');
     process.exit(1);
   }
 }
@@ -41,7 +41,7 @@ export function run(command, argsOrOptions = [], cwdMaybe = root, labelMaybe = c
 
   // Supports both:
   // run('npm', ['install'], webDir, 'Install web')
-  // run('npm install', { cwd: 'portfolio-web', label: 'Install web' })
+  // run('npm install', { cwd: 'skanda.dev', label: 'Install web' })
   if (Array.isArray(argsOrOptions)) {
     args = argsOrOptions;
   } else {

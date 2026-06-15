@@ -2,7 +2,7 @@ import { apiDir, webDir, ensurePackageJson, ensureProjectDirs, readPids, writePi
 
 ensureProjectDirs();
 ensurePackageJson(apiDir, 'portfolio-api');
-ensurePackageJson(webDir, 'portfolio-web');
+ensurePackageJson(webDir, 'skanda.dev');
 
 const existing = readPids().filter((item) => isRunning(item.pid));
 if (existing.length) {
