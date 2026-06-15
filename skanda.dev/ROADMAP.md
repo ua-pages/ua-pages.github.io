@@ -56,7 +56,6 @@
 
 ## Deployment
 
-- [ ] Прибрати `Cache-Control: no-cache` з server.js перед production
 - [ ] Обрати hosting для frontend
 - [ ] Обрати hosting для backend (якщо буде окремий)
 - [ ] Налаштувати environment variables

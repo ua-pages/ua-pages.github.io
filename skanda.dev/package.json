@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "start:dev": "node --watch server.js"
+    "start": "NODE_ENV=production node server.js",
+    "start:dev": "NODE_ENV=development node --watch server.js"
   }
 }

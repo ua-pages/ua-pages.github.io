@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUBLIC = resolve(__dirname, 'portfolio');
+const DEV = process.env.NODE_ENV === 'development' || process.execArgv.includes('--watch');
 
 loadEnv(resolve(__dirname, '.env'));
 
@@ -167,7 +168,9 @@ function serveStatic(req, res, pathname) {
   if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
     const fallbackPath = resolve(PUBLIC, 'index.html');
     const content = readFileSync(fallbackPath, 'utf-8');
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+    const headers = { 'Content-Type': 'text/html; charset=utf-8' };
+    if (DEV) headers['Cache-Control'] = 'no-cache';
+    res.writeHead(200, headers);
     res.end(content);
     return;
   }
@@ -175,7 +178,9 @@ function serveStatic(req, res, pathname) {
   const ext = extname(filePath);
   const mime = MIME[ext] || 'application/octet-stream';
   const content = readFileSync(filePath);
-  res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': 'no-cache' });
+  const headers = { 'Content-Type': mime };
+  if (DEV) headers['Cache-Control'] = 'no-cache';
+  res.writeHead(200, headers);
   res.end(content);
 }
 
