@@ -1,22 +1,19 @@
-# Release v1.0.0 — skanda.dev
+# Release v1.0.0 — oleksandr-dev-portfolio
 
 Release date: 2026-06-15
 
 Summary
 -------
-- Initial public release of skanda.dev (personal portfolio + contact form).
-- Provides a minimal Node HTTP server and a single-page portfolio built with Vanilla JS Web Components.
+- Initial public release of oleksandr-dev-portfolio (personal portfolio + contact form).
+- Provides a single-page portfolio built with Vanilla JS Web Components, deployed to GitHub Pages.
 
 Highlights
 ----------
 - Telegram lead intake: POST /api/contact → validated payload → formatted HTML message → Telegram Bot API.
 - Contact form component (lead-intake) with client-side validation and relative API path (/api/contact).
 - Projects carousel with multiple screenshots per project.
-- Color Adapt UA project added with live demo at: https://ua-pages.github.io/color-adapt-ua/
-- Tarot UA: multiple page screenshots added (main / session / library / fast-session).
-- Screenshot preview: click a screenshot to open a smooth, animated full-screen preview (fade + scale).
 - Mobile-first responsive layout and media queries.
-- Server utilities: dev / production modes, optional no-cache in dev.
+- GitHub Pages deployment configured.
 
 Files Changed / Added
 ---------------------
@@ -41,11 +38,11 @@ How to run locally
 
 4. Open the portfolio at:
 
-   http://localhost:3001/portfolio/
+   http://localhost:4200
 
 Publishing the GitHub Release (draft)
 -----------------------------------
-I prepared this release locally and pushed the branch `release_1.0.0` and tag `v1.0.0` to the repository `git@github.com:ua-pages/skanda.dev.git`.
+I prepared this release locally and pushed the branch `release_1.0.0` and tag `v1.0.0` to the repository `git@github.com:ua-pages/oleksandr-dev-portfolio.git`.
 
 I cannot create the GitHub Release draft automatically from here because a GitHub token or the `gh` CLI is not configured in this environment.
 
@@ -59,7 +56,7 @@ Options for publishing the draft release:
 
 3. Use the GitHub REST API (requires token):
 
-   POST https://api.github.com/repos/ua-pages/skanda.dev/releases
+   POST https://api.github.com/repos/ua-pages/oleksandr-dev-portfolio/releases
    Body: {"tag_name":"v1.0.0","name":"v1.0.0","body":"<release notes>"}
 
 If you want, I can prepare the exact `gh` command or the API curl example with placeholders for your token. Or, if you give me a GitHub token, I can create the draft release for you.
@@ -67,5 +64,5 @@ If you want, I can prepare the exact `gh` command or the API curl example with p
 Next steps and suggestions
 --------------------------
 - Create a small changelog entry on the site (optional) linking to the release notes.
-- Add CI (GitHub Actions) to run basic smoke checks for the server and the demo pages.
+- Add CI (GitHub Actions) to run basic smoke checks for the demo pages.
 - If you want a formal CHANGELOG.md, I can convert these notes into conventional changelog format.

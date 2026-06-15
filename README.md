@@ -20,7 +20,7 @@ npm run start:dev  # dev mode з --watch
 ## Як це працює
 
 Фронтенд — SPA на нативних Web Components без фреймворків.
-Сервер — простий Node.js HTTP сервер, який роздає статику з `portfolio/`.
+Сайт роздається статично через GitHub Pages з `portfolio/` директорії.
 Форма заявки надсилає POST-запит на `/api/contact`. Сервер валідує дані та пересилає повідомлення в Telegram через Bot API.
 
 ## Структура
@@ -36,7 +36,6 @@ npm run start:dev  # dev mode з --watch
 │   │       └── lead-intake.js
 │   ├── robots.txt
 │   └── sitemap.xml
-├── server.js
 ├── package.json
 ├── ROADMAP.md
 └── README.md

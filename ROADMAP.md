@@ -5,7 +5,7 @@
 ## Поточний статус
 
 - [x] Vanilla JS Web Components SPA запускається локально
-- [x] Node.js HTTP server (static file server) підготовлений
+- [x] GitHub Pages deployment підготовлений
 - [x] Root-level scripts додані (`start`, `start:dev`)
 - [x] `.gitignore` доданий
 - [x] `.env.example` доданий
@@ -58,7 +58,7 @@
 
 ## Deployment
 
-- [ ] Обрати hosting для frontend
+- [x] GitHub Pages deployment налаштований
 - [ ] Обрати hosting для backend (якщо буде окремий)
 - [ ] Налаштувати environment variables
 - [ ] Налаштувати CORS для production domain
