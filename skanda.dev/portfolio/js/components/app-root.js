@@ -321,7 +321,6 @@ template.innerHTML = `
     .contact-actions {
       display: grid;
       gap: 1rem;
-      min-width: 0;
     }
 
     .telegram-qr-card {

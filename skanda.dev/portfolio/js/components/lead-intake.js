@@ -5,36 +5,23 @@ template.innerHTML = `
   <style>
     :host {
       display: block;
-      min-width: 0;
     }
 
     .lead-form {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
       padding: 1.1rem;
       border: 1px solid var(--line, rgba(148,163,184,0.22));
       border-radius: 1.4rem;
       background: rgba(15, 23, 42, 0.72);
       box-shadow: 0 24px 80px rgba(2, 6, 23, 0.35);
-      min-width: 0;
-    }
-
-    .field-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      min-width: 0;
-    }
-
-    @media (max-width: 800px) {
-      .field-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     label {
-      display: grid;
-      gap: 0.45rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
       color: #cbd5e1;
       font-size: 0.86rem;
     }
@@ -49,6 +36,7 @@ template.innerHTML = `
       padding: 0.82rem 0.9rem;
       outline: none;
       transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      box-sizing: border-box;
     }
 
     textarea {
@@ -96,49 +84,41 @@ template.innerHTML = `
       color: #fecaca;
       background: rgba(239, 68, 68, 0.1);
     }
-
-    @media (max-width: 720px) {
-      .field-grid {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
 
   <form class="lead-form">
-    <div class="field-grid">
-      <label>
-        Імʼя
-        <input type="text" name="name" placeholder="Імʼя / компанія" required minlength="2" maxlength="80" />
-      </label>
-      <label>
-        Контакт
-        <input type="text" name="contact" placeholder="Telegram, email або LinkedIn" required minlength="3" maxlength="140" />
-      </label>
-    </div>
+    <label>
+      Імʼя
+      <input type="text" name="name" placeholder="Імʼя / компанія" required minlength="2" maxlength="80" />
+    </label>
 
-    <div class="field-grid">
-      <label>
-        Послуга
-        <select name="service">
-          <option>Frontend / Full-stack розробка</option>
-          <option>Angular архітектура</option>
-          <option>Міграція legacy</option>
-          <option>Performance audit</option>
-          <option>Підсилення команди / code review</option>
-          <option>Технічна консультація</option>
-        </select>
-      </label>
-      <label>
-        Бюджет
-        <select name="budget">
-          <option>Поки не визначено</option>
-          <option>До $500</option>
-          <option>$500 — $1500</option>
-          <option>$1500 — $3000</option>
-          <option>$3000+</option>
-        </select>
-      </label>
-    </div>
+    <label>
+      Контакт
+      <input type="text" name="contact" placeholder="Telegram, email або LinkedIn" required minlength="3" maxlength="140" />
+    </label>
+
+    <label>
+      Послуга
+      <select name="service">
+        <option>Frontend / Full-stack розробка</option>
+        <option>Angular архітектура</option>
+        <option>Міграція legacy</option>
+        <option>Performance audit</option>
+        <option>Підсилення команди / code review</option>
+        <option>Технічна консультація</option>
+      </select>
+    </label>
+
+    <label>
+      Бюджет
+      <select name="budget">
+        <option>Поки не визначено</option>
+        <option>До $500</option>
+        <option>$500 — $1500</option>
+        <option>$1500 — $3000</option>
+        <option>$3000+</option>
+      </select>
+    </label>
 
     <label>
       Терміни
