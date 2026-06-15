@@ -167,7 +167,7 @@ function serveStatic(req, res, pathname) {
   if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
     const fallbackPath = resolve(PUBLIC, 'index.html');
     const content = readFileSync(fallbackPath, 'utf-8');
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
     res.end(content);
     return;
   }
@@ -175,7 +175,7 @@ function serveStatic(req, res, pathname) {
   const ext = extname(filePath);
   const mime = MIME[ext] || 'application/octet-stream';
   const content = readFileSync(filePath);
-  res.writeHead(200, { 'Content-Type': mime });
+  res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': 'no-cache' });
   res.end(content);
 }
 
