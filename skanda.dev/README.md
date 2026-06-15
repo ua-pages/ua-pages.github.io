@@ -21,7 +21,7 @@ npm run start:dev  # dev mode з --watch
 
 Фронтенд — SPA на нативних Web Components без фреймворків.
 Сервер — простий Node.js HTTP сервер, який роздає статику з `portfolio/`.
-Форма заявки надсилає POST-запит на `/api/contact`.
+Форма заявки надсилає POST-запит на `/api/contact`. Сервер валідує дані та пересилає повідомлення в Telegram через Bot API.
 
 ## Структура
 

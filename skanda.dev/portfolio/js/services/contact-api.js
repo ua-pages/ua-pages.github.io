@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3333/api/contact';
+const API_URL = '/api/contact';
 
 export async function stvorytyLider(payload) {
   const res = await fetch(API_URL, {

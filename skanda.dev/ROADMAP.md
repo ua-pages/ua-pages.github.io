@@ -19,12 +19,13 @@
 
 - [ ] Додати README.md
 - [ ] Додати LICENSE (MIT)
+- [x] Додати Telegram notification service у backend
+- [x] Підключити реальний `TELEGRAM_BOT_TOKEN`
+- [x] Отримати й додати `TELEGRAM_CHAT_ID`
+- [x] Перевірити відправку заявки в Telegram
+- [x] Додати `.env` локально на основі `.env.example`
+- [x] Перевірити форму заявки локально — API endpoint працює
 - [ ] Перевірити UI після додавання QR-коду
-- [ ] Перевірити форму заявки локально — бекенд не має API endpoint
-- [ ] Додати Telegram notification service у backend
-- [ ] Підключити реальний `TELEGRAM_BOT_TOKEN`
-- [ ] Отримати й додати `TELEGRAM_CHAT_ID`
-- [ ] Додати `.env` локально на основі `.env.example`
 - [ ] Додати production build script (якщо потрібно)
 
 ## Frontend ideas
