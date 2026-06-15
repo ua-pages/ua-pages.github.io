@@ -436,6 +436,106 @@ template.innerHTML = `
         height: 9.25rem;
       }
     }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: calc(100% - 24px);
+        padding-top: 0.5rem;
+      }
+
+      .topbar .brand strong {
+        display: none;
+      }
+
+      .nav-links a {
+        font-size: 0.82rem;
+        padding: 0.45rem 0.6rem;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 2rem;
+      }
+
+      h1 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+      }
+
+      .lead {
+        font-size: clamp(1rem, 3vw, 1.2rem);
+      }
+
+      .meta-row {
+        gap: 0.4rem;
+      }
+
+      .meta-row span, .meta-row a {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.55rem;
+      }
+
+      .signal-card {
+        padding: 1rem;
+      }
+
+      .signal-card li {
+        font-size: 0.82rem;
+        padding: 0.55rem 0.7rem;
+      }
+
+      .section {
+        margin-top: 3rem;
+      }
+
+      .section-heading h2 {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+      }
+
+      .telegram-qr-image {
+        width: 7rem;
+        height: 7rem;
+      }
+
+      .leadflow {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-shell {
+        width: calc(100% - 16px);
+      }
+
+      .nav-links a {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.45rem;
+      }
+
+      h1 {
+        font-size: clamp(1.3rem, 8vw, 1.6rem);
+      }
+
+      .lead {
+        font-size: 0.95rem;
+      }
+
+      .section {
+        margin-top: 2rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .contact-section {
+        padding: 1rem;
+      }
+    }
   </style>
 
   <main class="page-shell">
