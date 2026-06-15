@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "start:dev": "NODE_ENV=development node --watch server.js"
+    "start": "echo \"Static project — serve the 'portfolio' folder with your static host (GitHub Pages).\"",
+    "start:dev": "echo \"Static project — no built-in dev server. Use a static server if needed.\""
   },
   "description": "Personal portfolio site and contact form for Oleksandr Vasyliev (skanda.dev)",
   "repository": {
