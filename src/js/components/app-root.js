@@ -1071,7 +1071,7 @@ template.innerHTML = `
       <p>Допомагаю українському бізнесу створювати веб-системи швидше та ефективніше завдяки сучасним AI-інструментам розробки.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" id="contactBtn">Обговорити проєкт</a>
-        <a class="btn btn-secondary" href="#projects">Переглянути роботи</a>
+        <a class="btn btn-secondary" id="projectsBtn">Переглянути роботи</a>
       </div>
       <div class="hero-stack" id="heroStack"></div>
     </section>
@@ -1432,7 +1432,7 @@ export class AppRoot extends HTMLElement {
       if (el) smoothScrollTo(el);
     });
 
-    root.querySelector('a[href="#projects"]').addEventListener('click', (e) => {
+    root.getElementById('projectsBtn').addEventListener('click', (e) => {
       e.preventDefault();
       const el = root.getElementById('projects');
       if (el) smoothScrollTo(el);
