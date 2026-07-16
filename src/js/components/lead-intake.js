@@ -1,176 +1,130 @@
-import { stvorytyLider } from '../services/contact-api.js';
-
 const template = document.createElement('template');
 template.innerHTML = `
   <style>
-    :host {
-      display: block;
+    :host { display: block; }
+    .form-card {
+      padding: 28px;
+      border-radius: var(--radius-lg, 14px);
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      background: var(--surface, rgba(255,255,255,0.04));
     }
-
-    .lead-form {
+    .form-card h3 {
+      margin: 0 0 20px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text, #fafafa);
+    }
+    .form-group {
       display: flex;
       flex-direction: column;
-      gap: 1.15rem;
-      padding: 1.3rem;
-      border: 1px solid var(--line, rgba(148,163,184,0.22));
-      border-radius: 1.4rem;
-      background: rgba(15, 23, 42, 0.72);
-      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.35);
+      gap: 6px;
+      margin-bottom: 16px;
     }
-
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      color: #cbd5e1;
-      font-size: 0.86rem;
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary, #a1a1aa);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
-
-    input, textarea {
-      width: 100%;
-      border: 1px solid rgba(148, 163, 184, 0.26);
-      border-radius: 0.9rem;
-      background: rgba(2, 6, 23, 0.52);
-      color: #f8fafc;
-      font: inherit;
-      padding: 0.5rem 1.1rem;
-      min-height: 1.8rem;
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm, 6px);
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      background: var(--bg, #0a0a0b);
+      color: var(--text, #fafafa);
+      font-family: inherit;
+      font-size: 14px;
       outline: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-      box-sizing: border-box;
-      -webkit-appearance: none;
+      transition: border-color 0.15s;
     }
-
-    select {
-      width: 100%;
-      border: 1px solid rgba(148, 163, 184, 0.26);
-      border-radius: 0.9rem;
-      background: rgba(2, 6, 23, 0.52);
-      color: #f8fafc;
-      font: inherit;
-      font-size: 0.95rem;
-      padding: 0.5rem 2.4rem 0.5rem 1.1rem;
-      min-height: 1.8rem;
-      outline: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-      box-sizing: border-box;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='m1.5 1.5 4.5 4.5 4.5-4.5'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
-      background-size: 0.75rem;
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent, #3b82f6);
     }
-
-    textarea {
+    .form-group textarea {
       resize: vertical;
+      min-height: 90px;
     }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(56, 189, 248, 0.72);
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
-      background-color: rgba(2, 6, 23, 0.76);
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-tertiary, #71717a);
     }
-
-    button {
-      border: 0;
-      border-radius: 999px;
-      padding: 1rem 1.4rem;
-      color: #020617;
-      background: linear-gradient(135deg, #67e8f9, #a78bfa 55%, #f0abfc);
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 160ms ease, opacity 160ms ease;
+    .form-status {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm, 6px);
+      font-size: 13px;
+      font-weight: 500;
     }
-
-    button:hover {
-      transform: translateY(-1px);
-    }
-
-    button:disabled {
-      cursor: wait;
-      opacity: 0.7;
-    }
-
-    .success, .error {
-      margin: 0;
-      padding: 0.8rem 0.95rem;
-      border-radius: 0.9rem;
-    }
-
-    .success {
-      color: #bbf7d0;
+    .form-status.success {
       background: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
     }
-
-    .error {
-      color: #fecaca;
+    .form-status.error {
       background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 24px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      border: none;
+      font-family: inherit;
+      width: 100%;
+      background: #fafafa;
+      color: #0a0a0b;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   </style>
-
-  <form class="lead-form">
-    <label>
-      Імʼя
-      <input type="text" name="name" placeholder="Імʼя / компанія" required minlength="2" maxlength="80" />
-    </label>
-
-    <label>
-      Контакт
-      <input type="text" name="contact" placeholder="Telegram, email або LinkedIn" required minlength="3" maxlength="140" />
-    </label>
-
-    <label>
-      Послуга
-      <select name="service">
-        <option>Frontend / Full-stack розробка</option>
-        <option>Angular архітектура</option>
-        <option>Міграція legacy</option>
-        <option>Performance audit</option>
-        <option>Підсилення команди / code review</option>
-        <option>Технічна консультація</option>
-      </select>
-    </label>
-
-    <label>
-      Бюджет
-      <select name="budget" class="budget-select">
-        <option>Поки не визначено</option>
-        <option>До $500</option>
-        <option>$500 — $1500</option>
-        <option>$1500 — $3000</option>
-        <option>$3000+</option>
-        <option value="custom">Ввести суму (UAH)</option>
-      </select>
-      <div class="custom-budget" style="display:none; margin-top:0.6rem;">
-        <input type="number" name="customBudget" placeholder="Наприклад 5000" min="0" />
-        <select name="customCurrency" style="margin-top:0.5rem; width:100%;">
-          <option value="UAH">UAH</option>
-          <option value="USD">USD</option>
+  <div class="form-card">
+    <h3>Надіслати заявку</h3>
+    <form id="leadForm">
+      <div class="form-group">
+        <label for="name">Ім'я / компанія</label>
+        <input type="text" id="name" name="name" placeholder="Як до вас звертатись?" required minlength="2" maxlength="80" />
+      </div>
+      <div class="form-group">
+        <label for="contact">Контакт</label>
+        <input type="text" id="contact" name="contact" placeholder="Email, Telegram або LinkedIn" required minlength="3" maxlength="140" />
+      </div>
+      <div class="form-group">
+        <label for="service">Що потрібно?</label>
+        <select id="service" name="service">
+          <option>Бізнес-система / внутрішній портал</option>
+          <option>CRM / ERP рішення</option>
+          <option>Автоматизація бізнес-процесів</option>
+          <option>Корпоративний веб-додаток</option>
+          <option>MVP для стартапу</option>
+          <option>AI-інтеграція</option>
+          <option>Технічний аудит</option>
+          <option>Інше</option>
         </select>
       </div>
-    </label>
-
-    <label>
-      Терміни
-      <select name="timeline">
-        <option>Гнучко</option>
-        <option>Цього тижня</option>
-        <option>1—2 тижні</option>
-        <option>Цього місяця</option>
-        <option>Довгострокова співпраця</option>
-      </select>
-    </label>
-
-    <label>
-      Контекст проєкту
-      <textarea name="message" rows="5" placeholder="Розкажіть, що потрібно створити, виправити або покращити" required minlength="12" maxlength="2000"></textarea>
-    </label>
-
-    <div class="status"></div>
-
-    <button type="submit">Надіслати заявку</button>
-  </form>
+      <div class="form-group">
+        <label for="message">Опишіть задачу</label>
+        <textarea id="message" name="message" rows="4" placeholder="Розкажіть, що потрібно створити, виправити або покращити" required minlength="12" maxlength="2000"></textarea>
+      </div>
+      <button class="submit-btn" type="submit">Надіслати заявку</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </div>
 `;
 
 export class LeadIntake extends HTMLElement {
@@ -178,78 +132,49 @@ export class LeadIntake extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-    this.form = this.shadowRoot.querySelector('form');
-    this.status = this.shadowRoot.querySelector('.status');
-    this.submitBtn = this.shadowRoot.querySelector('button');
+    this.form = this.shadowRoot.getElementById('leadForm');
+    this.status = this.shadowRoot.getElementById('formStatus');
+    this.submitBtn = this.form.querySelector('.submit-btn');
     this.isSubmitting = false;
-
     this.form.addEventListener('submit', (e) => this.#submit(e));
-    this.budgetSelect = this.shadowRoot.querySelector('.budget-select');
-    this.customContainer = this.shadowRoot.querySelector('.custom-budget');
-    this.customBudgetInput = this.shadowRoot.querySelector('input[name="customBudget"]');
-    this.customCurrencySelect = this.shadowRoot.querySelector('select[name="customCurrency"]');
-    this.budgetSelect.addEventListener('change', () => this.#onBudgetChange());
   }
 
   async #submit(e) {
     e.preventDefault();
-
     if (this.isSubmitting) return;
-
-    if (!this.form.checkValidity()) {
-      this.form.reportValidity();
-      return;
-    }
+    if (!this.form.checkValidity()) { this.form.reportValidity(); return; }
 
     this.isSubmitting = true;
     this.submitBtn.disabled = true;
     this.submitBtn.textContent = 'Надсилаю...';
-    this.status.innerHTML = '';
+    this.status.className = 'form-status';
+    this.status.textContent = '';
 
     const data = new FormData(this.form);
-    let budgetValue = data.get('budget');
-    let currency = null;
-    if (budgetValue === 'custom') {
-      const custom = this.customBudgetInput?.value;
-      const cur = this.customCurrencySelect?.value || 'UAH';
-      if (custom) {
-        budgetValue = `${custom} ${cur}`;
-        currency = cur;
-      } else {
-        budgetValue = 'Поки не визначено';
-      }
-    }
-
     const payload = {
       name: data.get('name'),
       contact: data.get('contact'),
       service: data.get('service'),
-      budget: budgetValue,
-      currency: currency,
-      timeline: data.get('timeline'),
       message: data.get('message'),
     };
 
     try {
-      await stvorytyLider(payload);
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('Failed');
       this.form.reset();
-      this.status.innerHTML = '<p class="success">Заявку надіслано. Я відповім найближчим часом.</p>';
+      this.status.className = 'form-status success';
+      this.status.textContent = 'Заявку надіслано. Я відповім найближчим часом.';
     } catch {
-      this.status.innerHTML = '<p class="error">Не вдалося надіслати заявку. Напишіть мені напряму в Telegram: @copcoopallie</p>';
+      this.status.className = 'form-status error';
+      this.status.textContent = 'Не вдалося надіслати. Напишіть на email: oleksandr.morlock@gmail.com';
     } finally {
       this.isSubmitting = false;
       this.submitBtn.disabled = false;
       this.submitBtn.textContent = 'Надіслати заявку';
-    }
-  }
-
-  #onBudgetChange() {
-    const val = this.budgetSelect.value;
-    if (val === 'custom') {
-      this.customContainer.style.display = 'block';
-    } else {
-      this.customContainer.style.display = 'none';
     }
   }
 }

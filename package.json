@@ -1,19 +1,18 @@
 {
   "name": "oleksandr-dev-portfolio",
-  "version": "1.6.15",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "echo \"Static project — serve the 'portfolio' folder with your static host (GitHub Pages).\"",
     "start:dev": "echo \"Static project — no built-in dev server. Use a static server if needed.\""
   },
-  "description": "Personal portfolio site and contact form for Oleksandr Vasyliev (oleksandr-dev-portfolio)",
+  "description": "ua-pages — Сучасна веб-розробка для українського бізнесу. Сайт-портфоліо Олександра Васильєва.",
   "repository": {
     "type": "git",
     "url": "git@github.com:ua-pages/oleksandr-dev-portfolio.git"
   },
   "homepage": "https://ua-pages.github.io/oleksandr-dev-portfolio/",
   "author": "Oleksandr Vasyliev <oleksandr.morlock@gmail.com>",
-  "license": "MIT",
-  
+  "license": "MIT"
 }

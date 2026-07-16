@@ -1,4 +1,4 @@
-import { profile, highlights, skills, problems, projects, stack } from '../data/portfolio-content.js';
+import { brand, profile, services, whyUaPages, projects, openSource, approach, stack } from '../data/portfolio-content.js';
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -6,413 +6,480 @@ template.innerHTML = `
     :host {
       display: block;
       min-height: 100vh;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.22), transparent 28rem),
-        radial-gradient(circle at 78% 4%, rgba(168, 85, 247, 0.2), transparent 26rem),
-        linear-gradient(180deg, #020617 0%, #0f172a 46%, #111827 100%);
+      background: var(--bg);
     }
 
-    .page-shell {
-      width: min(1160px, calc(100% - 32px));
+    .shell {
+      width: min(var(--max-width), calc(100% - 40px));
       margin: 0 auto;
-      padding: 1rem 0 4rem;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 1rem;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.8rem 1rem;
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
-      border-radius: 999px;
-      background: rgba(2, 6, 23, 0.72);
-      backdrop-filter: blur(18px);
-    }
-
-    .brand, .nav-links, .hero-actions, .meta-row, .stack-strip, .bot-flow {
-      display: flex;
-      align-items: center;
-    }
-
-    .brand {
-      gap: 0.7rem;
-      color: var(--text, #f8fafc);
-      text-decoration: none;
-    }
-
-    .brand .logo {
-      display: grid;
-      width: 2.2rem;
-      height: 2.2rem;
-      place-items: center;
-      border-radius: 50%;
-      color: #020617;
-      font-weight: 900;
-      background: linear-gradient(135deg, #67e8f9, #a78bfa 55%, #f0abfc);
-    }
-
-    .nav-links {
-      gap: 0.2rem;
-    }
-
-    .nav-links a {
-      padding: 0.62rem 0.82rem;
-      border-radius: 999px;
-      color: #cbd5e1;
-      text-decoration: none;
-      font-size: 0.92rem;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-      background: rgba(148, 163, 184, 0.11);
     }
 
     .section {
-      margin-top: 5rem;
+      padding: 100px 0;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
-      gap: 2rem;
-      align-items: center;
-      min-height: calc(100vh - 7rem);
-    }
-
-    .eyebrow {
-      margin: 0 0 1rem;
-      color: var(--cyan, #67e8f9);
-      font-size: 0.82rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3, p {
-      margin-top: 0;
-    }
-
-    h1 {
-      max-width: 820px;
-      margin-bottom: 1.2rem;
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
-
-    h2 {
-      margin-bottom: 1rem;
-      font-size: clamp(2rem, 4vw, 4.2rem);
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-    }
-
-    h3 {
-      margin-bottom: 0.7rem;
-      font-size: 1.15rem;
-    }
-
-    .lead {
-      max-width: 760px;
-      margin-bottom: 1rem;
-      color: #dbeafe;
-      font-size: clamp(1.25rem, 2vw, 1.65rem);
-      line-height: 1.5;
-    }
-
-    .summary, .section-heading p, .glass-card p, .problems p, .leadflow p {
-      color: var(--muted, #94a3b8);
-      line-height: 1.72;
-    }
-
-    .summary {
-      max-width: 700px;
-    }
-
-    .hero-actions {
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .button {
+    .section-label {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-height: 3rem;
-      padding: 0 1.1rem;
-      border-radius: 999px;
-      font-weight: 800;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .button.primary {
-      color: #020617;
-      background: linear-gradient(135deg, #67e8f9, #a78bfa 55%, #f0abfc);
-    }
-
-    .button.ghost {
-      color: var(--text, #f8fafc);
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      background: rgba(15, 23, 42, 0.64);
-    }
-
-    .meta-row {
-      gap: 0.7rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-      color: #cbd5e1;
-    }
-
-    .meta-row span, .meta-row a {
-      color: inherit;
-      text-decoration: none;
-      padding: 0.45rem 0.7rem;
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.48);
-    }
-
-    .signal-card, .glass-card, .leadflow, .problems article, .contact-section {
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
-      background: var(--surface, rgba(15, 23, 42, 0.62));
-      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
-      backdrop-filter: blur(18px);
-    }
-
-    .signal-card {
-      padding: 1.3rem;
-      border-radius: 1.7rem;
-    }
-
-    .signal-card .availability {
-      margin-bottom: 1rem;
-      color: #bbf7d0;
-      font-weight: 800;
-    }
-
-    .signal-card ul {
-      display: grid;
-      gap: 0.8rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .signal-card li {
-      padding: 0.9rem;
-      border-radius: 1rem;
-      color: #dbeafe;
-      background: rgba(2, 6, 23, 0.48);
-    }
-
-    .stack-strip {
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
-
-    .stack-strip span {
-      padding: 0.55rem 0.75rem;
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
-      border-radius: 999px;
-      color: #dbeafe;
-      background: rgba(15, 23, 42, 0.54);
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
-      gap: 2rem;
-    }
-
-    .section-heading {
-      position: sticky;
-      top: 6rem;
-      align-self: start;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .glass-card {
-      min-height: 100px;
-      padding: 1.2rem;
-      border-radius: 1.4rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .glass-card h3 {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.4;
-      color: #dbeafe;
-    }
-
-    .leadflow {
-      display: grid;
-      grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
-      gap: 2rem;
-      align-items: center;
-      padding: clamp(1.25rem, 4vw, 2.4rem);
-      border-radius: 1.8rem;
-    }
-
-    .bot-flow {
-      justify-content: flex-end;
-      gap: 0.65rem;
-      flex-wrap: wrap;
-    }
-
-    .bot-flow span {
-      padding: 0.72rem 0.9rem;
-      border-radius: 999px;
-      color: #e0f2fe;
-      background: rgba(2, 6, 23, 0.52);
-    }
-
-    .bot-flow strong {
-      color: var(--cyan, #67e8f9);
-    }
-
-    .problems {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .problems article {
-      display: grid;
-      padding: 1.2rem;
-      border-radius: 1.4rem;
-      gap: 0.6rem;
-    }
-
-    .problems .tag {
-      display: inline-block;
-      width: fit-content;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      color: #020617;
-      font-size: 0.72rem;
-      font-weight: 800;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: linear-gradient(135deg, #67e8f9, #a78bfa);
     }
 
-    .problems h3 {
-      margin: 0;
+    .section-title {
+      margin: 0 0 16px;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text);
     }
 
-    .problems p {
-      margin: 0;
-      color: var(--muted, #94a3b8);
-      line-height: 1.72;
+    .section-subtitle {
+      margin: 0 0 48px;
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 560px;
     }
 
-    .projects-list {
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
-      background: var(--surface, rgba(15, 23, 42, 0.62));
-      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
-      backdrop-filter: blur(18px);
-      border-radius: 1.4rem;
-      padding: 1.3rem;
-    }
-
-    .project-header {
+    /* NAVBAR */
+    nav {
+      position: sticky;
+      top: 12px;
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 0.8rem;
+      padding: 0 12px;
+      height: var(--nav-height);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(10, 10, 11, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin-top: 12px;
     }
 
-    .project-header h3 {
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-links a {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .nav-toggle {
+      display: none;
+      padding: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .nav-toggle svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 120px 0 80px;
+      min-height: calc(100vh - var(--nav-height) - 40px);
+      justify-content: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 6px 16px 6px 8px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(32px, 5.5vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      max-width: 820px;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      margin: 0 0 32px;
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 24px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+
+    .hero-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .hero-stack span {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-tertiary);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      padding: 32px;
+      background: var(--bg);
+      transition: background 0.2s;
+    }
+
+    .service-card:hover {
+      background: var(--surface);
+    }
+
+    .service-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .service-card p {
       margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* WHY UA-PAGES */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .why-card {
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .why-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+    }
+
+    .why-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 16px;
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+    }
+
+    .why-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .why-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* PROJECTS */
+    .projects-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .project-main {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 40px;
+    }
+
+    .project-col {
+      min-width: 0;
+    }
+
+    .project-card h3 {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .project-field-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+
+    .project-field-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .project-tech {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .project-tech span {
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-tertiary);
+      font-size: 11px;
+      font-weight: 500;
     }
 
     .project-link {
-      color: var(--cyan, #67e8f9);
-      font-weight: 700;
-      font-size: 0.86rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
       text-decoration: none;
-      white-space: nowrap;
+      transition: opacity 0.15s;
     }
 
     .project-link:hover {
-      text-decoration: underline;
+      opacity: 0.8;
     }
 
-    .project-desc {
-      margin: 0 0 1rem;
-      color: var(--muted, #94a3b8);
-      line-height: 1.72;
+    .project-screenshots {
+      grid-column: 1 / -1;
+      overflow: hidden;
     }
 
-    .carousel {
-      position: relative;
+    .screenshot-strip {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .carousel-track {
-      display: flex;
-      gap: 0.6rem;
+      gap: 10px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 4px;
     }
 
-    .carousel-track::-webkit-scrollbar {
+    .screenshot-strip::-webkit-scrollbar {
       display: none;
     }
 
-    .carousel-track img {
+    .screenshot-strip img {
       flex-shrink: 0;
-      width: 100%;
-      max-width: 340px;
-      border-radius: 0.8rem;
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.18));
-      scroll-snap-align: start;
+      width: 280px;
+      height: 170px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
       object-fit: cover;
-      aspect-ratio: 16 / 10;
-      cursor: zoom-in;
-      transition: filter 0.2s;
+      scroll-snap-align: start;
+      cursor: pointer;
+      transition: opacity 0.2s;
     }
 
-    .carousel-track img:hover {
-      filter: brightness(1.08);
+    .screenshot-strip img:hover {
+      opacity: 0.85;
     }
 
     .preview-overlay {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: rgba(2, 6, 23, 0.85);
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: zoom-out;
       opacity: 0;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.2s;
     }
 
     .preview-overlay.open {
@@ -422,392 +489,670 @@ template.innerHTML = `
     .preview-overlay img {
       max-width: 90vw;
       max-height: 90vh;
-      border-radius: 0.6rem;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+      border-radius: var(--radius-sm);
       object-fit: contain;
-      transform: scale(0.92);
-      transition: transform 0.25s ease;
+      transform: scale(0.95);
+      transition: transform 0.2s;
     }
 
     .preview-overlay.open img {
       transform: scale(1);
     }
 
-    .carousel-btn {
-      flex-shrink: 0;
-      width: 2.2rem;
-      height: 2.2rem;
-      border: 1px solid var(--line, rgba(148, 163, 184, 0.24));
-      border-radius: 50%;
-      background: rgba(2, 6, 23, 0.7);
-      color: #cbd5e1;
-      font-size: 1rem;
-      cursor: pointer;
+    /* OPEN SOURCE */
+    .oss-grid {
       display: grid;
-      place-items: center;
-      transition: background 0.2s, border-color 0.2s;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
-    .carousel-btn:hover {
-      background: rgba(15, 23, 42, 0.9);
-      border-color: rgba(148, 163, 184, 0.4);
+    .oss-card {
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .carousel-btn:disabled {
-      opacity: 0.3;
-      cursor: default;
+    .oss-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
     }
 
-    .contact-section {
-      display: grid;
-      grid-template-columns: minmax(260px, 0.6fr) minmax(340px, 1fr);
-      gap: 2rem;
-      padding: clamp(1.25rem, 4vw, 2.4rem);
-      border-radius: 1.8rem;
+    .oss-card-featured {
+      border-color: rgba(59, 130, 246, 0.3);
+      background: var(--accent-soft);
+      grid-column: 1 / -1;
     }
 
-    .contact-actions {
-      display: grid;
-      gap: 1rem;
+    .oss-card-featured:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      background: rgba(59, 130, 246, 0.15);
     }
 
-    .telegram-qr-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 1.25rem;
-      align-items: center;
-      padding: 1.1rem;
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      border-radius: 1.4rem;
-      background:
-        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 38%),
-        rgba(15, 23, 42, 0.72);
-      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.22);
+    .oss-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
     }
 
-    .telegram-qr-content {
-      display: grid;
-      gap: 0.55rem;
-    }
-
-    .telegram-qr-content .eyebrow {
-      margin-bottom: 0.15rem;
-    }
-
-    .telegram-qr-content h3 {
-      margin: 0;
-    }
-
-    .telegram-qr-content p {
-      margin: 0;
-      color: var(--muted, #94a3b8);
+    .oss-card p {
+      margin: 0 0 12px;
+      font-size: 14px;
       line-height: 1.7;
+      color: var(--text-secondary);
     }
 
-    .telegram-link {
-      width: fit-content;
-      color: #bfdbfe;
-      font-weight: 800;
+    .oss-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
       text-decoration: none;
     }
 
-    .telegram-link:hover {
-      text-decoration: underline;
+    .oss-link:hover {
+      opacity: 0.8;
     }
 
-      .telegram-qr-image {
-        width: 8.25rem;
-        height: 8.25rem;
-        padding: 0.55rem;
-        border-radius: 1rem;
-        background: #fff;
-        object-fit: contain;
+    /* APPROACH */
+    .approach-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .approach-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+      padding: 20px 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s;
+    }
+
+    .approach-item:hover {
+      border-color: var(--border-hover);
+    }
+
+    .approach-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .approach-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .approach-text strong {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .approach-text span {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .about-main {
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .about-main p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    .about-main p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .about-title-card {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .about-title-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+    }
+
+    /* CONTACTS */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-card {
+      padding: 20px 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s;
+    }
+
+    .contact-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .contact-card-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+
+    .contact-card-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .contact-card-value:hover {
+      color: var(--accent);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 0 32px;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* FORM */
+    .form-card {
+      padding: 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .form-card h3 {
+      margin: 0 0 20px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group input:focus-visible,
+    .form-group select:focus-visible,
+    .form-group textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .form-status {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .form-status.success {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .form-status.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .submit-btn {
+      width: 100%;
+    }
+
+    /* EMPTY STATE */
+    .empty-screenshots {
+      grid-column: 1 / -1;
+      padding: 20px;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-tertiary);
+      font-size: 13px;
+    }
+
+    /* CLIPBOARD TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      translate: -50%;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      background: var(--text);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10000;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .shell {
+        width: calc(100% - 24px);
       }
 
-      #copyTip {
-        position: fixed;
-        bottom: 2rem;
-        left: 50%;
-        translate: -50%;
-        padding: 0.7rem 1.2rem;
-        border-radius: 999px;
-        background: #166534;
-        color: #bbf7d0;
-        font-size: 0.9rem;
-        font-weight: 700;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.25s;
-      }
-      #copyTip.show-tip {
-        opacity: 1;
+      .section {
+        padding: 60px 0;
       }
 
-    @media (max-width: 900px) {
-      .topbar, .hero, .section-grid, .leadflow, .contact-section, .problems article {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar {
-        display: grid;
-        border-radius: 1.4rem;
+      .hero {
+        padding: 80px 0 60px;
+        min-height: auto;
       }
 
       .nav-links {
-        flex-wrap: wrap;
-      }
-
-      .hero {
-        min-height: auto;
-        padding-top: 3rem;
-      }
-
-      .section-heading {
-        position: static;
-      }
-
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .bot-flow {
-        justify-content: flex-start;
-      }
-
-      .telegram-qr-card {
-        grid-template-columns: 1fr;
-        justify-items: start;
-      }
-
-      .telegram-qr-image {
-        width: 9.25rem;
-        height: 9.25rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .page-shell {
-        width: calc(100% - 24px);
-        padding-top: 0.5rem;
-      }
-
-      .topbar .brand strong {
+        position: fixed;
+        top: calc(var(--nav-height) + 12px);
+        left: var(--shell-padding, 12px);
+        right: var(--shell-padding, 12px);
+        background: rgba(10, 10, 11, 0.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 16px;
+        gap: 8px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
         display: none;
+        z-index: 99;
+      }
+
+      .nav-links.open {
+        display: flex;
       }
 
       .nav-links a {
-        font-size: 0.82rem;
-        padding: 0.45rem 0.6rem;
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
       }
 
-      .hero {
-        min-height: auto;
-        padding-top: 0.5rem;
+      .nav-toggle {
+        display: flex;
       }
 
-      h1 {
-        font-size: clamp(1.6rem, 7vw, 2.2rem);
+      .shell {
+        --shell-padding: 12px;
       }
 
-      .lead {
-        font-size: clamp(1rem, 3vw, 1.2rem);
+      .services-grid {
+        grid-template-columns: 1fr;
       }
 
-      .meta-row {
-        gap: 0.4rem;
+      .service-card {
+        padding: 24px;
       }
 
-      .meta-row span, .meta-row a {
-        font-size: 0.78rem;
-        padding: 0.35rem 0.55rem;
+      .why-grid {
+        grid-template-columns: 1fr;
       }
 
-      .signal-card {
-        padding: 1rem;
+      .project-main {
+        grid-template-columns: 1fr;
+        padding: 24px;
       }
 
-      .signal-card li {
-        font-size: 0.82rem;
-        padding: 0.55rem 0.7rem;
+      .oss-grid {
+        grid-template-columns: 1fr;
       }
 
-      .section {
-        margin-top: 3rem;
+      .about-grid {
+        grid-template-columns: 1fr;
       }
 
-      .section-heading h2 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+      .contacts-grid {
+        grid-template-columns: 1fr;
       }
 
-      .telegram-qr-image {
-        width: 7rem;
-        height: 7rem;
-      }
-
-      .leadflow {
-        padding: 1rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .page-shell {
-        width: calc(100% - 16px);
-        padding-top: 0;
-      }
-
-      .topbar {
-        top: 0.5rem;
-        padding: 0.5rem 0.7rem;
-      }
-
-      .nav-links a {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.45rem;
-      }
-
-      .hero {
-        padding-top: 0;
-      }
-
-      .section {
-        margin-top: 1rem;
-      }
-
-      h1 {
-        font-size: clamp(1.3rem, 8vw, 1.6rem);
-        margin-bottom: 0.6rem;
-      }
-
-      .lead {
-        font-size: 0.95rem;
-      }
-
-      .signal-card {
-        padding: 0.8rem;
+      .section-title {
+        margin-bottom: 28px;
       }
 
       .hero-actions {
         flex-direction: column;
-      }
-
-      .hero-actions .button {
         width: 100%;
-        justify-content: center;
       }
 
-      .contact-section {
-        padding: 1rem;
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-stack span {
+        font-size: 11px;
+        padding: 3px 10px;
+      }
+
+      .screenshot-strip img {
+        width: 220px;
+        height: 135px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .shell {
+        width: calc(100% - 16px);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .hero {
+        padding: 60px 0 40px;
+      }
+
+      .hero-badge {
+        font-size: 11px;
+        padding: 4px 10px 4px 6px;
+      }
+
+      h1 {
+        font-size: clamp(24px, 7vw, 32px);
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .btn {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 13px;
+      }
+
+      .section-title {
+        font-size: clamp(22px, 6vw, 28px);
+        margin-bottom: 32px;
+      }
+
+      .section-subtitle {
+        font-size: 13px;
+        margin: 0 0 32px;
+      }
+
+      .service-card,
+      .why-card,
+      .oss-card,
+      .approach-item {
+        padding: 20px;
+      }
+
+      .project-main {
+        padding: 20px;
+      }
+
+      .project-field-text {
+        font-size: 13px;
+      }
+
+      .project-tech span {
+        font-size: 10px;
+        padding: 2px 8px;
+      }
+
+      .about-main {
+        padding: 20px;
+      }
+
+      .about-title-card {
+        font-size: 13px;
+        padding: 12px 16px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .nav-logo {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
       }
     }
   </style>
 
-  <main class="page-shell">
-    <nav class="topbar" aria-label="Основна навігація">
-      <a class="brand" href="#top">
-        <span class="logo">OV</span>
-        <strong>Олександр Васильєв</strong>
+  <div class="shell">
+    <nav aria-label="Основна навігація">
+      <a class="nav-brand" href="#top">
+        <span class="nav-logo">UP</span>
+        <span>ua-pages</span>
       </a>
-      <div class="nav-links">
-        <a href="#skills">Навички</a>
-        <a href="#leadflow">Telegram flow</a>
-        <a href="#experience">Досвід</a>
-        <a href="#portfolio">Портфоліо</a>
-        <a href="#contact">Контакти</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#services">Послуги</a>
+        <a href="#why">Чому ua-pages</a>
+        <a href="#projects">Проєкти</a>
+        <a href="#opensource">Open Source</a>
+        <a href="#about">Про мене</a>
+        <a href="#contact" class="nav-cta" style="color:var(--accent)">Контакти</a>
       </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Відкрити меню" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
     </nav>
 
-    <section id="top" class="hero section">
-      <div class="hero-copy">
-        <p class="eyebrow">Веб-розробка · Full-stack · Інженерний підхід до продукту</p>
-        <h1 id="role"></h1>
-        <p class="lead" id="headline"></p>
-        <p class="summary" id="summary"></p>
-
-        <div class="hero-actions">
-          <a class="button primary" id="contactBtn">Обговорити проєкт</a>
-          <a class="button ghost" id="emailLink" role="button" tabindex="0">Копіювати email</a>
-        </div>
-
-        <div class="meta-row">
-          <span id="location"></span>
-          <span id="phone"></span>
-          <span id="telegram"></span>
-          <a id="githubLink" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
+    <section id="top" class="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span>Відкритий до співпраці</span>
       </div>
-
-      <aside class="signal-card" aria-label="Професійні акценти">
-        <div class="availability">Відкритий до Senior / Tech Lead ролей</div>
-        <ul id="highlights"></ul>
-      </aside>
+      <h1><span class="highlight">Сучасна веб-розробка</span><br>для українського бізнесу</h1>
+      <p>Допомагаю українському бізнесу створювати веб-системи швидше та ефективніше завдяки сучасним AI-інструментам розробки.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" id="contactBtn">Обговорити проєкт</a>
+        <a class="btn btn-secondary" href="#projects">Переглянути роботи</a>
+      </div>
+      <div class="hero-stack" id="heroStack"></div>
     </section>
 
-    <section class="section stack-strip" id="stackStrip" aria-label="Технологічний стек"></section>
-
-    <section id="skills" class="section section-grid">
-      <div class="section-heading">
-        <p class="eyebrow">Технічні навички</p>
-        <h2>Сучасна веб-розробка від клієнта до сервера.</h2>
-        <p>Комплексний підхід: проєктування архітектури, інтеграції, оптимізація та супровід продуктів будь-якої складності.</p>
-      </div>
-      <div class="cards-grid" id="skillsGrid"></div>
+    <section id="services" class="section">
+      <span class="section-label">Послуги</span>
+      <h2 class="section-title">Чим можу допомогти</h2>
+      <p class="section-subtitle">Не просто код — рішення для вашого бізнесу. Від ідеї до готового продукту.</p>
+      <div class="services-grid" id="servicesGrid"></div>
     </section>
 
-    <section id="leadflow" class="section leadflow">
-      <div>
-        <p class="eyebrow">Функція портфоліо</p>
-        <h2>Telegram Lead Flow</h2>
-        <p>Це портфоліо працює не лише як сайт-візитка, а як невеликий full-stack продукт: форма контакту надсилає структуровані заявки в Telegram через API.</p>
-      </div>
-      <div class="bot-flow" aria-label="Процес обробки заявки">
-        <span>Відвідувач</span>
-        <strong>→</strong>
-        <span>Форма</span>
-        <strong>→</strong>
-        <span>API</span>
-        <strong>→</strong>
-        <span>Telegram-заявка</span>
-      </div>
+    <section id="why" class="section">
+      <span class="section-label">Чому ua-pages</span>
+      <h2 class="section-title">Мій підхід до розробки</h2>
+      <p class="section-subtitle">Чотири принципи, які відрізняють мою роботу та приносять реальну цінність бізнесу.</p>
+      <div class="why-grid" id="whyGrid"></div>
     </section>
 
-    <section id="experience" class="section section-grid">
-      <div class="section-heading">
-        <p class="eyebrow">Досвід</p>
-        <h2>Задачі, які я вирішував.</h2>
-        <p>Проблеми та виклики, з якими стикався в реальних проєктах — від міграції legacy до архітектурних рішень і технічного лідерства.</p>
-      </div>
-      <div class="problems" id="problemsList"></div>
-    </section>
-
-    <section id="portfolio" class="section section-grid">
-      <div class="section-heading">
-        <p class="eyebrow">Портфоліо</p>
-        <h2>Проєкти, які я створив.</h2>
-        <p>Pet-проєкти, експерименти та інструменти, які показують підхід до коду, архітектури та користувацького досвіду.</p>
-      </div>
+    <section id="projects" class="section">
+      <span class="section-label">Портфоліо</span>
+      <h2 class="section-title">Проєкти, які я створив</h2>
+      <p class="section-subtitle">Кожен проєкт — це історія: проблема, рішення, результат. Не просто список технологій.</p>
       <div class="projects-list" id="projectsList"></div>
     </section>
 
-    <section id="contact" class="section contact-section">
-      <div class="section-heading">
-        <p class="eyebrow">Контакти</p>
-        <h2>Є продукт, команда або застосунок, якому потрібна допомога?</h2>
-        <p>Залиште коротку заявку. Backend передасть її в Telegram, щоб я міг швидко побачити контекст і відповісти.</p>
-      </div>
-      <div class="contact-actions">
-        <div class="telegram-qr-card">
-          <div class="telegram-qr-content">
-            <p class="eyebrow">Telegram</p>
-            <h3>Швидкий контакт</h3>
-            <p>Скануйте QR-код або перейдіть за посиланням, щоб написати мені напряму в Telegram.</p>
-            <a class="telegram-link" href="https://t.me/copcoopallie" target="_blank" rel="noreferrer">@copcoopallie</a>
-          </div>
-          <img class="telegram-qr-image" src="./assets/images/telegram-contact-qr.png" alt="QR-код для переходу в Telegram" />
-        </div>
-        <lead-intake></lead-intake>
+    <section id="opensource" class="section">
+      <span class="section-label">Open Source</span>
+      <h2 class="section-title">Внесок у спільноту</h2>
+      <p class="section-subtitle">Створюю україномовні інструменти, перекладаю документацію та ділюсь знаннями з українською IT-спільнотою.</p>
+      <div class="oss-grid" id="ossGrid"></div>
+    </section>
+
+    <section id="approach" class="section">
+      <span class="section-label">Принципи</span>
+      <h2 class="section-title">Принципи ua-pages</h2>
+      <p class="section-subtitle">П'ять принципів, якими я керуюсь у кожному проєкті — від ідеї до релізу.</p>
+      <div class="approach-list" id="approachList"></div>
+    </section>
+
+    <section id="about" class="section">
+      <span class="section-label">Про мене</span>
+      <h2 class="section-title">Хто стоїть за ua-pages</h2>
+      <div class="about-grid">
+        <div class="about-main" id="aboutText"></div>
+        <div class="about-titles" id="aboutTitles"></div>
       </div>
     </section>
-  </main>
+
+    <section id="contact" class="section">
+      <span class="section-label">Контакти</span>
+      <h2 class="section-title">Потрібна веб-система, автоматизація або MVP?</h2>
+      <p class="section-subtitle">Давайте обговоримо ваш проєкт. Напишіть мені, і я відповім найближчим часом.</p>
+      <div class="contacts-grid">
+        <div class="contact-info">
+          <div class="contact-card">
+            <span class="contact-card-label">Email</span>
+            <a class="contact-card-value" id="emailDisplay" href="mailto:oleksandr.morlock@gmail.com">oleksandr.morlock@gmail.com</a>
+            <button class="btn btn-secondary" id="copyEmailBtn" style="margin-top:10px;height:34px;padding:0 14px;font-size:12px;width:auto">Копіювати</button>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-label">GitHub</span>
+            <a class="contact-card-value" id="githubDisplay" href="https://github.com/ua-pages" target="_blank" rel="noreferrer">github.com/ua-pages</a>
+          </div>
+          <div class="contact-card" style="background:var(--accent-soft);border-color:rgba(59,130,246,0.2)">
+            <span class="contact-card-label" style="color:var(--accent)">Написати напряму</span>
+            <p style="margin:4px 0 0;font-size:13px;color:var(--text-secondary);line-height:1.6">Надсилайте email на вказану адресу — я завжди на зв'язку.</p>
+          </div>
+        </div>
+        <div class="form-card" id="formContainer"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-brand">ua-pages</span>
+        <span>&copy; 2026 Олександр Васильєв</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
 `;
 
 export class AppRoot extends HTMLElement {
@@ -818,116 +1163,297 @@ export class AppRoot extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot.getElementById('role').textContent = profile.role;
-    this.shadowRoot.getElementById('headline').textContent = profile.headline;
-    this.shadowRoot.getElementById('summary').textContent = profile.summary;
-    const emailLink = this.shadowRoot.getElementById('emailLink');
-    emailLink.addEventListener('click', (e) => {
+    this.renderHeroStack();
+    this.renderServices();
+    this.renderWhy();
+    this.renderProjects();
+    this.renderOpenSource();
+    this.renderApproach();
+    this.renderAbout();
+    this.renderForm();
+    this.setupInteractions();
+  }
+
+  renderHeroStack() {
+    const container = this.shadowRoot.getElementById('heroStack');
+    stack.forEach(s => {
+      const span = document.createElement('span');
+      span.textContent = s;
+      container.appendChild(span);
+    });
+  }
+
+  renderServices() {
+    const grid = this.shadowRoot.getElementById('servicesGrid');
+    services.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `<h3>${s.title}</h3><p>${s.description}</p>`;
+      grid.appendChild(card);
+    });
+  }
+
+  renderWhy() {
+    const grid = this.shadowRoot.getElementById('whyGrid');
+    whyUaPages.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'why-card';
+      card.innerHTML = `
+        <div class="why-icon">${w.icon}</div>
+        <h3>${w.title}</h3>
+        <p>${w.description}</p>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  renderProjects() {
+    const list = this.shadowRoot.getElementById('projectsList');
+    projects.forEach((p, idx) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.dataset.idx = idx;
+
+      let screenshotsHtml = '';
+      if (p.screenshots && p.screenshots.length) {
+        const imgs = p.screenshots.map(s => `<img src="${s}" alt="${p.title}" loading="lazy" />`).join('');
+        screenshotsHtml = `<div class="project-screenshots"><div class="screenshot-strip" data-track="${idx}">${imgs}</div></div>`;
+      } else {
+        screenshotsHtml = '<div class="empty-screenshots">Скріншоти недоступні</div>';
+      }
+
+      card.innerHTML = `
+        <div class="project-main">
+          <h3>${p.title}</h3>
+          <div class="project-col">
+            <span class="project-field-label">Проблема</span>
+            <p class="project-field-text">${p.problem}</p>
+          </div>
+          <div class="project-col">
+            <span class="project-field-label">Рішення</span>
+            <p class="project-field-text">${p.solution}</p>
+          </div>
+          <div class="project-col">
+            <span class="project-field-label">Результат</span>
+            <p class="project-field-text">${p.result}</p>
+          </div>
+          <div class="project-col">
+            <span class="project-field-label">Посилання</span>
+            <a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">
+              Відкрити проєкт →
+            </a>
+          </div>
+          <div class="project-tech">
+            ${p.tech.split(' · ').map(t => `<span>${t}</span>`).join('')}
+          </div>
+          ${screenshotsHtml}
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  renderOpenSource() {
+    const grid = this.shadowRoot.getElementById('ossGrid');
+    openSource.forEach(o => {
+      const card = document.createElement('div');
+      const classes = ['oss-card'];
+      if (o.featured) classes.push('oss-card-featured');
+      card.className = classes.join(' ');
+      card.innerHTML = `
+        <h3>${o.title}</h3>
+        <p>${o.description}</p>
+        <a class="oss-link" href="${o.url}" target="_blank" rel="noreferrer">Дізнатись більше →</a>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  renderApproach() {
+    const list = this.shadowRoot.getElementById('approachList');
+    approach.forEach(a => {
+      const item = document.createElement('div');
+      item.className = 'approach-item';
+      item.innerHTML = `
+        <div class="approach-check">${a.icon}</div>
+        <div class="approach-text">
+          <strong>${a.text}</strong>
+          <span>${a.description}</span>
+        </div>
+      `;
+      list.appendChild(item);
+    });
+  }
+
+  renderAbout() {
+    const container = this.shadowRoot.getElementById('aboutText');
+    profile.about.forEach(p => {
+      const pEl = document.createElement('p');
+      pEl.textContent = p;
+      container.appendChild(pEl);
+    });
+
+    const titlesContainer = this.shadowRoot.getElementById('aboutTitles');
+    profile.titles.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'about-title-card';
+      card.textContent = t;
+      titlesContainer.appendChild(card);
+    });
+  }
+
+  renderForm() {
+    const container = this.shadowRoot.getElementById('formContainer');
+    container.innerHTML = `
+      <h3>Надіслати заявку</h3>
+      <form id="leadForm">
+        <div class="form-group">
+          <label for="name">Ім'я / компанія</label>
+          <input type="text" id="name" name="name" placeholder="Як до вас звертатись?" required minlength="2" maxlength="80" />
+        </div>
+        <div class="form-group">
+          <label for="contact">Контакт</label>
+          <input type="text" id="contact" name="contact" placeholder="Email, Telegram або LinkedIn" required minlength="3" maxlength="140" />
+        </div>
+        <div class="form-group">
+          <label for="service">Що потрібно?</label>
+          <select id="service" name="service">
+            <option>Бізнес-система / внутрішній портал</option>
+            <option>CRM / ERP рішення</option>
+            <option>Автоматизація бізнес-процесів</option>
+            <option>Корпоративний веб-додаток</option>
+            <option>MVP для стартапу</option>
+            <option>AI-інтеграція</option>
+            <option>Технічний аудит</option>
+            <option>Інше</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Опишіть задачу</label>
+          <textarea id="message" name="message" rows="4" placeholder="Розкажіть, що потрібно створити, виправити або покращити" required minlength="12" maxlength="2000"></textarea>
+        </div>
+        <button class="btn btn-primary submit-btn" type="submit">Надіслати заявку</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    `;
+
+    const form = this.shadowRoot.getElementById('leadForm');
+    const status = this.shadowRoot.getElementById('formStatus');
+    const submitBtn = form.querySelector('.submit-btn');
+    let isSubmitting = false;
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isSubmitting) return;
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      isSubmitting = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Надсилаю...';
+      status.className = 'form-status';
+      status.textContent = '';
+
+      const data = new FormData(form);
+      const payload = {
+        name: data.get('name'),
+        contact: data.get('contact'),
+        service: data.get('service'),
+        message: data.get('message'),
+      };
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('Failed');
+        form.reset();
+        status.className = 'form-status success';
+        status.textContent = 'Заявку надіслано. Я відповім найближчим часом.';
+      } catch {
+        status.className = 'form-status error';
+        status.textContent = 'Не вдалося надіслати. Напишіть на email: oleksandr.morlock@gmail.com';
+      } finally {
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Надіслати заявку';
+      }
+    });
+  }
+
+  setupInteractions() {
+    const root = this.shadowRoot;
+    const sections = ['services', 'why', 'projects', 'opensource', 'about', 'contact'];
+    const navLinks = root.querySelectorAll('.nav-links a');
+    const navToggle = root.getElementById('navToggle');
+    const navLinksContainer = root.getElementById('navLinks');
+
+    function smoothScrollTo(el) {
+      const start = window.scrollY;
+      const target = el.getBoundingClientRect().top + start - 24;
+      const dist = target - start;
+      const dur = 700;
+      const startTime = performance.now();
+      requestAnimationFrame(function scroll(now) {
+        const t = Math.min((now - startTime) / dur, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        window.scrollTo(0, start + dist * ease);
+        if (t < 1) requestAnimationFrame(scroll);
+      });
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navLinksContainer.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        const id = link.getAttribute('href').slice(1);
+        const el = root.getElementById(id) || document.getElementById(id);
+        if (el) smoothScrollTo(el);
+      });
+    });
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinksContainer.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLinksContainer.classList.contains('open') && !e.composedPath().includes(root.querySelector('nav'))) {
+        navLinksContainer.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    root.getElementById('contactBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      const el = root.getElementById('contact');
+      if (el) smoothScrollTo(el);
+    });
+
+    const copyBtn = root.getElementById('copyEmailBtn');
+    const toast = root.getElementById('toast');
+    copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(profile.email).then(() => {
-        const tip = this.shadowRoot.getElementById('copyTip') || (() => {
-          const el = document.createElement('span');
-          el.id = 'copyTip';
-          el.textContent = 'Email скопійовано';
-          emailLink.parentNode.appendChild(el);
-          return el;
-        })();
-        tip.classList.add('show-tip');
-        setTimeout(() => tip.classList.remove('show-tip'), 2000);
+        toast.textContent = 'Email скопійовано';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
       }).catch(() => {
-        // fallback — виділити текст
         const ta = document.createElement('textarea');
         ta.value = profile.email;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
+        toast.textContent = 'Email скопійовано';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
       });
     });
-    this.shadowRoot.getElementById('contactBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      const el = this.shadowRoot.getElementById('contact');
-      if (el) {
-        const start = window.scrollY;
-        const target = el.getBoundingClientRect().top + start - 96;
-        const dist = target - start;
-        const dur = 700;
-        const startTime = performance.now();
-        requestAnimationFrame(function scroll(now) {
-          const t = Math.min((now - startTime) / dur, 1);
-          const ease = 1 - Math.pow(1 - t, 3);
-          window.scrollTo(0, start + dist * ease);
-          if (t < 1) requestAnimationFrame(scroll);
-        });
-      }
-    });
-    this.shadowRoot.getElementById('location').textContent = profile.location;
-    this.shadowRoot.getElementById('phone').textContent = profile.phone;
-    this.shadowRoot.getElementById('telegram').textContent = profile.telegram;
-    this.shadowRoot.getElementById('githubLink').href = profile.github;
 
-    const highlightsList = this.shadowRoot.getElementById('highlights');
-    highlights.forEach(h => {
-      const li = document.createElement('li');
-      li.textContent = h;
-      highlightsList.appendChild(li);
-    });
-
-    const strip = this.shadowRoot.getElementById('stackStrip');
-    stack.forEach(s => {
-      const span = document.createElement('span');
-      span.textContent = s;
-      strip.appendChild(span);
-    });
-
-    const grid = this.shadowRoot.getElementById('skillsGrid');
-    skills.forEach(s => {
-      const article = document.createElement('article');
-      article.className = 'glass-card';
-      article.innerHTML = `<h3>${s}</h3>`;
-      grid.appendChild(article);
-    });
-
-    const list = this.shadowRoot.getElementById('problemsList');
-    problems.forEach(p => {
-      const article = document.createElement('article');
-      article.innerHTML = `
-        <span class="tag">${p.tag}</span>
-        <h3>${p.title}</h3>
-        <p>${p.text}</p>
-      `;
-      list.appendChild(article);
-    });
-
-    const projectsList = this.shadowRoot.getElementById('projectsList');
-    projects.forEach((p, idx) => {
-      const card = document.createElement('div');
-      card.className = 'project-card';
-
-      let screenshotsHtml = '';
-      if (p.screenshots && p.screenshots.length) {
-        const imgs = p.screenshots.map(s => `<img src="${s}" alt="${p.title}" loading="lazy" />`).join('');
-        screenshotsHtml = `
-          <div class="carousel">
-            <button class="carousel-btn" data-prev="${idx}">‹</button>
-            <div class="carousel-track" data-track="${idx}">${imgs}</div>
-            <button class="carousel-btn" data-next="${idx}">›</button>
-          </div>`;
-      }
-
-      card.innerHTML = `
-        <div class="project-header">
-          <h3>${p.title}</h3>
-          <a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">Відкрити проєкт →</a>
-        </div>
-        <p class="project-desc">${p.description}</p>
-        ${screenshotsHtml}
-      `;
-      projectsList.appendChild(card);
-    });
-
-    this.shadowRoot.addEventListener('click', (e) => {
-      const img = e.target.closest('.carousel-track img');
+    root.addEventListener('click', (e) => {
+      const img = e.target.closest('.screenshot-strip img');
       if (img) {
         if (this._previewOverlay) return;
         const overlay = document.createElement('div');
@@ -945,19 +1471,10 @@ export class AppRoot extends HTMLElement {
             this._previewOverlay = null;
           }, { once: true });
         });
-        this.shadowRoot.appendChild(overlay);
+        root.appendChild(overlay);
         this._previewOverlay = overlay;
         requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('open')));
-        return;
       }
-
-      const btn = e.target.closest('.carousel-btn');
-      if (!btn) return;
-      const idx = btn.dataset.prev || btn.dataset.next;
-      const track = this.shadowRoot.querySelector(`[data-track="${idx}"]`);
-      if (!track) return;
-      const scroll = btn.dataset.prev ? -track.clientWidth : track.clientWidth;
-      track.scrollBy({ left: scroll, behavior: 'smooth' });
     });
   }
 }
