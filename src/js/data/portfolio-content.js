@@ -11,22 +11,22 @@ export const brand = {
 
 export const profile = {
   name: 'Олександр Васильєв',
-  role: 'JavaScript Engineer / Angular Specialist',
+  role: 'JavaScript Engineer / AI-Assisted Developer',
   location: '🇺🇦 Львів, Україна',
   email: 'oleksandr.morlock@gmail.com',
   github: 'https://github.com/ua-pages',
   persona: 'ua-pages — мій особистий бренд, під яким я створюю веб-системи для українського бізнесу.',
   about: [
-    'Я — JavaScript Engineer з понад 10-річним досвідом у веб-розробці. Спеціалізуюсь на Angular, TypeScript та Node.js, але не обмежуюсь інструментами — моя мета вирішувати бізнес-задачі.',
+    'Я — JavaScript Engineer з понад 10-річним досвідом у веб-розробці. Моя мета — вирішувати бізнес-задачі, а не просто писати код.',
     'За роки роботи я пройшов шлях від написання коду до проєктування архітектури, технічного лідерства та наставництва. Працював у продуктових командах і enterprise-середовищах, де кожне рішення впливає на бізнес.',
     'Я активно використовую AI-інструменти в щоденній роботі. Це дозволяє прискорювати розробку, зменшувати кількість рутинних задач і фокусуватись на важливому — створенні цінності для клієнта.',
     'Під брендом ua-pages я об\'єдную свої знання, досвід та підхід до розробки, щоб допомагати українському бізнесу запускати цифрові продукти швидше та ефективніше.',
   ],
   titles: [
     'JavaScript Engineer',
-    'Angular Specialist',
     'AI-Assisted Developer',
     'Open Source Contributor',
+    'Zero Dependencies Advocate',
   ],
 };
 
@@ -184,8 +184,6 @@ export const approach = [
 
 export const stack = [
   'JavaScript',
-  'TypeScript',
-  'Angular',
   'Node.js',
   'OpenCode',
   'AI-Assisted Development',
