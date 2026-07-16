@@ -140,7 +140,7 @@ template.innerHTML = `
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 120px 0 80px;
+      padding: 60px 0 40px;
       min-height: calc(100vh - var(--nav-height) - 40px);
       justify-content: center;
     }
@@ -855,7 +855,7 @@ template.innerHTML = `
       }
 
       .hero {
-        padding: 80px 0 60px;
+        padding: 60px 0 40px;
         min-height: auto;
       }
 
@@ -965,7 +965,7 @@ template.innerHTML = `
       }
 
       .hero {
-        padding: 60px 0 40px;
+        padding: 40px 0 24px;
       }
 
       .hero-badge {
@@ -1429,6 +1429,12 @@ export class AppRoot extends HTMLElement {
     root.getElementById('contactBtn').addEventListener('click', (e) => {
       e.preventDefault();
       const el = root.getElementById('contact');
+      if (el) smoothScrollTo(el);
+    });
+
+    root.querySelector('a[href="#projects"]').addEventListener('click', (e) => {
+      e.preventDefault();
+      const el = root.getElementById('projects');
       if (el) smoothScrollTo(el);
     });
 
