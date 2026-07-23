@@ -15,7 +15,7 @@ on:
       ref:
         description: Branch, tag, or commit to preview
         required: true
-        default: agent/clarify-leaf-flow
+        default: main
       source_path:
         description: Directory containing the static site
         required: true
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ github.event_name == 'workflow_dispatch' && format('{0}stage1/{1}/', steps.deployment.outputs.page_url, inputs.repository) || steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout production portal
         uses: actions/checkout@v4
@@ -91,3 +91,20 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Add deployment link
+        env:
+          BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIEW_REPOSITORY: ${{ inputs.repository }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            preview_url="${BASE_URL}stage1/${PREVIEW_REPOSITORY}/"
+            echo "### Staging preview" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "[$preview_url]($preview_url)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Production" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "[$BASE_URL]($BASE_URL)" >> "$GITHUB_STEP_SUMMARY"
+          fi
