@@ -2,7 +2,7 @@
 
 Персональний сайт Олександра Васильєва про інженерні проєкти, developer tooling, platform engineering і технічний підхід.
 
-Живий сайт: https://ua-pages.github.io/oleksandr-dev-portfolio/
+Живий сайт: https://ua-pages.github.io/
 
 ## Основа
 

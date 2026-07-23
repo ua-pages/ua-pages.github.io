@@ -1,18 +1,17 @@
 {
-  "name": "oleksandr-dev-portfolio",
+  "name": "ua-pages.github.io",
   "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "echo \"Static project — serve the 'portfolio' folder with your static host (GitHub Pages).\"",
-    "start:dev": "echo \"Static project — no built-in dev server. Use a static server if needed.\""
+    "start": "python3 -m http.server 4200 --directory src"
   },
   "description": "Інженерне портфоліо Олександра Васильєва — developer tooling, platform engineering і вебсистеми.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ua-pages/oleksandr-dev-portfolio.git"
+    "url": "https://github.com/ua-pages/ua-pages.github.io.git"
   },
-  "homepage": "https://ua-pages.github.io/oleksandr-dev-portfolio/",
+  "homepage": "https://ua-pages.github.io/",
   "author": "Oleksandr Vasyliev <oleksandr.morlock@gmail.com>",
   "license": "MIT"
 }
