@@ -8,6 +8,11 @@
   <meta name="keywords" content="Олександр Васильєв, software engineer, developer tooling, platform engineering, JavaScript, Node.js, ua-pages, DevNest, Seed, IT Терміносфера" />
   <meta name="author" content="Олександр Васильєв" />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="application-name" content="ua-pages" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ua-pages" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ua-pages" />
   <meta property="og:title" content="Олександр Васильєв — інженерні проєкти та developer tooling" />
@@ -23,7 +28,7 @@
   <link rel="sitemap" type="application/xml" href="./sitemap.xml" />
   <link rel="manifest" href="./site.webmanifest" />
   <link rel="icon" type="image/svg+xml" href="./assets/images/favicon.svg" />
-  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico" sizes="32x32" />
   <link rel="apple-touch-icon" href="./assets/images/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -61,6 +66,17 @@
   </script>
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('./sw.js')
+        .catch(error => {
+          console.error('Service Worker registration failed:', error);
+        });
+    });
+  }
+</script>
 <body>
   <app-root></app-root>
   <script type="module" src="./js/components/app-root.js"></script>
