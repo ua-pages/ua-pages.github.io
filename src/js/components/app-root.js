@@ -657,7 +657,7 @@ template.innerHTML = `
     /* CONTACTS */
     .contacts-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 680px);
       gap: 20px;
     }
 
@@ -721,106 +721,6 @@ template.innerHTML = `
       gap: 6px;
       font-weight: 600;
       color: var(--text-secondary);
-    }
-
-    /* FORM */
-    .form-card {
-      padding: 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .form-card h3 {
-      margin: 0 0 20px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--accent);
-    }
-
-    .form-group input:focus-visible,
-    .form-group select:focus-visible,
-    .form-group textarea:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--text-tertiary);
-    }
-
-    .form-status {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .form-status.success {
-      background: var(--green-soft);
-      color: var(--green);
-    }
-
-    .form-status.error {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-    }
-
-    .submit-btn {
-      width: 100%;
-    }
-
-    /* EMPTY STATE */
-    .empty-screenshots {
-      grid-column: 1 / -1;
-      padding: 20px;
-      text-align: center;
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      color: var(--text-tertiary);
-      font-size: 13px;
     }
 
     /* CLIPBOARD TOAST */
@@ -1026,13 +926,6 @@ template.innerHTML = `
         padding: 12px 16px;
       }
 
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        padding: 10px 12px;
-        font-size: 14px;
-      }
-
       .nav-logo {
         width: 24px;
         height: 24px;
@@ -1048,8 +941,8 @@ template.innerHTML = `
         <span>ua-pages</span>
       </a>
       <div class="nav-links" id="navLinks">
-        <a href="#services">Послуги</a>
-        <a href="#why">Чому ua-pages</a>
+        <a href="#services">Що я будую</a>
+        <a href="#why">Підхід</a>
         <a href="#projects">Проєкти</a>
         <a href="#opensource">Open Source</a>
         <a href="#about">Про мене</a>
@@ -1065,55 +958,55 @@ template.innerHTML = `
     <section id="top" class="hero">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        <span>Відкритий до співпраці</span>
+        <span>Software Engineer · Львів</span>
       </div>
-      <h1><span class="highlight">Сучасна веб-розробка</span><br>для українського бізнесу</h1>
-      <p>Допомагаю українському бізнесу створювати веб-системи швидше та ефективніше завдяки сучасним AI-інструментам розробки.</p>
+      <h1>Будую основу,<br><span class="highlight">на якій працюють інші</span></h1>
+      <p>${brand.headline}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" id="contactBtn">Обговорити проєкт</a>
+        <a class="btn btn-primary" id="contactBtn">Зв’язатися</a>
         <a class="btn btn-secondary" id="projectsBtn">Переглянути роботи</a>
       </div>
       <div class="hero-stack" id="heroStack"></div>
     </section>
 
     <section id="services" class="section">
-      <span class="section-label">Послуги</span>
-      <h2 class="section-title">Чим можу допомогти</h2>
-      <p class="section-subtitle">Не просто код — рішення для вашого бізнесу. Від ідеї до готового продукту.</p>
+      <span class="section-label">Напрями</span>
+      <h2 class="section-title">Що я будую</h2>
+      <p class="section-subtitle">Не каталог послуг, а напрями інженерної роботи: від локальних інструментів до основи, на якій розвивається продукт.</p>
       <div class="services-grid" id="servicesGrid"></div>
     </section>
 
     <section id="why" class="section">
-      <span class="section-label">Чому ua-pages</span>
-      <h2 class="section-title">Мій підхід до розробки</h2>
-      <p class="section-subtitle">Чотири принципи, які відрізняють мою роботу та приносять реальну цінність бізнесу.</p>
+      <span class="section-label">Інженерна робота</span>
+      <h2 class="section-title">Що я привношу в систему</h2>
+      <p class="section-subtitle">Архітектурне мислення, робоча основа для команди та рішення, які можна підтримувати й пояснювати.</p>
       <div class="why-grid" id="whyGrid"></div>
     </section>
 
     <section id="projects" class="section">
       <span class="section-label">Портфоліо</span>
-      <h2 class="section-title">Проєкти, які я створив</h2>
-      <p class="section-subtitle">Кожен проєкт — це історія: проблема, рішення, результат. Не просто список технологій.</p>
+      <h2 class="section-title">Вибрані інженерні проєкти</h2>
+      <p class="section-subtitle">Реальні системи й інструменти: навіщо вони існують, як влаштовані та який результат уже дають.</p>
       <div class="projects-list" id="projectsList"></div>
     </section>
 
     <section id="opensource" class="section">
       <span class="section-label">Open Source</span>
-      <h2 class="section-title">Внесок у спільноту</h2>
-      <p class="section-subtitle">Створюю україномовні інструменти, перекладаю документацію та ділюсь знаннями з українською IT-спільнотою.</p>
+      <h2 class="section-title">Відкриті інструменти й знання</h2>
+      <p class="section-subtitle">Проєкти, які роблять веб доступнішим, а інженерні практики — зрозумілішими українською.</p>
       <div class="oss-grid" id="ossGrid"></div>
     </section>
 
     <section id="approach" class="section">
       <span class="section-label">Принципи</span>
-      <h2 class="section-title">Принципи ua-pages</h2>
-      <p class="section-subtitle">П'ять принципів, якими я керуюсь у кожному проєкті — від ідеї до релізу.</p>
+      <h2 class="section-title">Як я приймаю рішення</h2>
+      <p class="section-subtitle">Залежності, AI та архітектура — інструменти й компроміси, а не частина особистого бренду.</p>
       <div class="approach-list" id="approachList"></div>
     </section>
 
     <section id="about" class="section">
       <span class="section-label">Про мене</span>
-      <h2 class="section-title">Хто стоїть за ua-pages</h2>
+      <h2 class="section-title">Олександр Васильєв</h2>
       <div class="about-grid">
         <div class="about-main" id="aboutText"></div>
         <div class="about-titles" id="aboutTitles"></div>
@@ -1122,8 +1015,8 @@ template.innerHTML = `
 
     <section id="contact" class="section">
       <span class="section-label">Контакти</span>
-      <h2 class="section-title">Потрібна веб-система, автоматизація або MVP?</h2>
-      <p class="section-subtitle">Давайте обговоримо ваш проєкт. Напишіть мені, і я відповім найближчим часом.</p>
+      <h2 class="section-title">Поговорімо про систему або інструмент</h2>
+      <p class="section-subtitle">Якщо вам близький такий спосіб роботи — напишіть напряму. Без форми, що обіцяє більше, ніж може виконати статичний сайт.</p>
       <div class="contacts-grid">
         <div class="contact-info">
           <div class="contact-card">
@@ -1140,7 +1033,6 @@ template.innerHTML = `
             <p style="margin:4px 0 0;font-size:13px;color:var(--text-secondary);line-height:1.6">Надсилайте email на вказану адресу — я завжди на зв'язку.</p>
           </div>
         </div>
-        <div class="form-card" id="formContainer"></div>
       </div>
     </section>
 
@@ -1170,7 +1062,6 @@ export class AppRoot extends HTMLElement {
     this.renderOpenSource();
     this.renderApproach();
     this.renderAbout();
-    this.renderForm();
     this.setupInteractions();
   }
 
@@ -1218,9 +1109,11 @@ export class AppRoot extends HTMLElement {
       if (p.screenshots && p.screenshots.length) {
         const imgs = p.screenshots.map(s => `<img src="${s}" alt="${p.title}" loading="lazy" />`).join('');
         screenshotsHtml = `<div class="project-screenshots"><div class="screenshot-strip" data-track="${idx}">${imgs}</div></div>`;
-      } else {
-        screenshotsHtml = '<div class="empty-screenshots">Скріншоти недоступні</div>';
       }
+
+      const projectLinkHtml = p.url
+        ? `<a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">Відкрити проєкт →</a>`
+        : '<span class="project-link">Приватний проєкт</span>';
 
       card.innerHTML = `
         <div class="project-main">
@@ -1239,9 +1132,7 @@ export class AppRoot extends HTMLElement {
           </div>
           <div class="project-col">
             <span class="project-field-label">Посилання</span>
-            <a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">
-              Відкрити проєкт →
-            </a>
+            ${projectLinkHtml}
           </div>
           <div class="project-tech">
             ${p.tech.split(' · ').map(t => `<span>${t}</span>`).join('')}
@@ -1299,86 +1190,6 @@ export class AppRoot extends HTMLElement {
       card.className = 'about-title-card';
       card.textContent = t;
       titlesContainer.appendChild(card);
-    });
-  }
-
-  renderForm() {
-    const container = this.shadowRoot.getElementById('formContainer');
-    container.innerHTML = `
-      <h3>Надіслати заявку</h3>
-      <form id="leadForm">
-        <div class="form-group">
-          <label for="name">Ім'я / компанія</label>
-          <input type="text" id="name" name="name" placeholder="Як до вас звертатись?" required minlength="2" maxlength="80" />
-        </div>
-        <div class="form-group">
-          <label for="contact">Контакт</label>
-          <input type="text" id="contact" name="contact" placeholder="Email, Telegram або LinkedIn" required minlength="3" maxlength="140" />
-        </div>
-        <div class="form-group">
-          <label for="service">Що потрібно?</label>
-          <select id="service" name="service">
-            <option>Бізнес-система / внутрішній портал</option>
-            <option>CRM / ERP рішення</option>
-            <option>Автоматизація бізнес-процесів</option>
-            <option>Корпоративний веб-додаток</option>
-            <option>MVP для стартапу</option>
-            <option>AI-інтеграція</option>
-            <option>Технічний аудит</option>
-            <option>Інше</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message">Опишіть задачу</label>
-          <textarea id="message" name="message" rows="4" placeholder="Розкажіть, що потрібно створити, виправити або покращити" required minlength="12" maxlength="2000"></textarea>
-        </div>
-        <button class="btn btn-primary submit-btn" type="submit">Надіслати заявку</button>
-        <div class="form-status" id="formStatus"></div>
-      </form>
-    `;
-
-    const form = this.shadowRoot.getElementById('leadForm');
-    const status = this.shadowRoot.getElementById('formStatus');
-    const submitBtn = form.querySelector('.submit-btn');
-    let isSubmitting = false;
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (isSubmitting) return;
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-
-      isSubmitting = true;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Надсилаю...';
-      status.className = 'form-status';
-      status.textContent = '';
-
-      const data = new FormData(form);
-      const payload = {
-        name: data.get('name'),
-        contact: data.get('contact'),
-        service: data.get('service'),
-        message: data.get('message'),
-      };
-
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error('Failed');
-        form.reset();
-        status.className = 'form-status success';
-        status.textContent = 'Заявку надіслано. Я відповім найближчим часом.';
-      } catch {
-        status.className = 'form-status error';
-        status.textContent = 'Не вдалося надіслати. Напишіть на email: oleksandr.morlock@gmail.com';
-      } finally {
-        isSubmitting = false;
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Надіслати заявку';
-      }
     });
   }
 
