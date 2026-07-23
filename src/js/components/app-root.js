@@ -1,1050 +1,1055 @@
-import { brand, profile, services, whyUaPages, projects, openSource, approach, stack } from '../data/portfolio-content.js';
+import {
+  brand,
+  profile,
+  services,
+  whyUaPages,
+  projects,
+  openSource,
+  approach,
+  stack,
+} from '../data/portfolio-content.js';
 
 const template = document.createElement('template');
+
 template.innerHTML = `
   <style>
     :host {
+      --page: min(1240px, calc(100vw - 48px));
+      --rail: 176px;
+      --line: rgba(240, 240, 232, 0.16);
+      --line-strong: rgba(240, 240, 232, 0.34);
+      --paper: #efefe7;
+      --muted: #989b91;
+      --signal: #f3d34a;
+      --signal-soft: rgba(243, 211, 74, 0.12);
+      --ink: #0b0c0a;
       display: block;
       min-height: 100vh;
-      background: var(--bg);
+      color: var(--paper);
+      background:
+        linear-gradient(rgba(240, 240, 232, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240, 240, 232, 0.025) 1px, transparent 1px),
+        var(--bg);
+      background-size: 48px 48px;
     }
 
-    .shell {
-      width: min(var(--max-width), calc(100% - 40px));
+    * {
+      box-sizing: border-box;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 1000;
+      top: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--signal);
+      translate: 0 -160%;
+      transition: translate 150ms ease;
+    }
+
+    .skip-link:focus {
+      translate: 0;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 100;
+      top: 0;
+      display: grid;
+      grid-template-columns: var(--rail) 1fr auto;
+      align-items: center;
+      width: var(--page);
+      min-height: 72px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--line-strong);
+      background: rgba(11, 12, 10, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .wordmark {
+      width: fit-content;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .wordmark-mark {
+      color: var(--signal);
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .main-nav a,
+    .header-contact {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 150ms ease;
+    }
+
+    .main-nav a:hover,
+    .main-nav a[aria-current="true"],
+    .header-contact:hover {
+      color: var(--paper);
+    }
+
+    .nav-index {
+      margin-right: 6px;
+      color: var(--signal);
+    }
+
+    .header-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-contact::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--signal);
+      content: "";
+    }
+
+    main {
+      width: var(--page);
       margin: 0 auto;
     }
 
-    .section {
-      padding: 100px 0;
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--rail) 1fr;
+      min-height: min(820px, calc(100vh - 72px));
+      border-bottom: 1px solid var(--line-strong);
     }
 
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 12px;
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+    .hero-rail {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px 28px 42px 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .eyebrow,
+    .rail-note,
+    .section-label,
+    .project-number,
+    .project-state,
+    .field-label,
+    .micro-label,
+    .footer-note {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .section-title {
-      margin: 0 0 16px;
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-      color: var(--text);
+    .eyebrow,
+    .section-label,
+    .project-number,
+    .micro-label {
+      color: var(--signal);
     }
 
-    .section-subtitle {
-      margin: 0 0 48px;
-      font-size: 16px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      max-width: 560px;
+    .rail-note {
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      rotate: 180deg;
     }
 
-    /* NAVBAR */
-    nav {
-      position: sticky;
-      top: 12px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
-      height: var(--nav-height);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(10, 10, 11, 0.78);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      margin-top: 12px;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: var(--radius-sm);
-      background: var(--accent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .nav-links a {
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      transition: color 0.15s, background 0.15s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-      background: var(--surface);
-    }
-
-    .nav-links a:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .nav-toggle {
-      display: none;
-      padding: 8px;
-      border: none;
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .nav-toggle svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    /* HERO */
-    .hero {
+    .hero-content {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 60px 0 40px;
-      min-height: calc(100vh - var(--nav-height) - 40px);
       justify-content: center;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 24px;
-      padding: 6px 16px 6px 8px;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .hero-badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
+      min-width: 0;
+      padding: 88px 0 72px 72px;
     }
 
     .hero h1 {
-      margin: 0 0 16px;
-      font-size: clamp(32px, 5.5vw, 64px);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-      color: var(--text);
-      max-width: 820px;
-    }
-
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      margin: 0 0 32px;
-      font-size: clamp(16px, 1.8vw, 19px);
-      color: var(--text-secondary);
-      line-height: 1.7;
-      max-width: 600px;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      height: 44px;
-      padding: 0 24px;
-      border-radius: var(--radius-full);
-      font-size: 14px;
+      max-width: 920px;
+      margin: 28px 0 32px;
+      font-size: clamp(58px, 8.4vw, 126px);
       font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.15s;
-      border: none;
-      font-family: inherit;
+      line-height: 0.88;
+      letter-spacing: -0.075em;
     }
 
-    .btn:hover {
-      opacity: 0.9;
+    .hero h1 span {
+      display: block;
+      color: var(--muted);
+      font-weight: 450;
     }
 
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-hover);
-    }
-
-    .hero-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 48px;
-      padding-top: 32px;
-      border-top: 1px solid var(--border);
-      max-width: 600px;
-      width: 100%;
-    }
-
-    .hero-stack span {
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-tertiary);
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    /* SERVICES */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .service-card {
-      padding: 32px;
-      background: var(--bg);
-      transition: background 0.2s;
-    }
-
-    .service-card:hover {
-      background: var(--surface);
-    }
-
-    .service-card h3 {
-      margin: 0 0 8px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .service-card p {
+    .hero-intro {
+      max-width: 720px;
       margin: 0;
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-secondary);
+      color: #c7c9c0;
+      font-size: clamp(17px, 2vw, 23px);
+      line-height: 1.55;
+      letter-spacing: -0.02em;
     }
 
-    /* WHY UA-PAGES */
-    .why-grid {
+    .hero-meta {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      max-width: 780px;
+      margin-top: 72px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
     }
 
-    .why-card {
-      padding: 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .why-card:hover {
-      border-color: var(--border-hover);
-      background: var(--surface-hover);
-    }
-
-    .why-icon {
+    .meta-item {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-sm);
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 16px;
-      margin-bottom: 16px;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .meta-value {
+      color: var(--paper);
+      font-size: 13px;
+    }
+
+    .signal-strip {
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .signal-strip span {
+      flex: 1;
+      padding: 14px 18px;
+      border-right: 1px solid var(--line);
+      color: var(--muted);
       font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-transform: uppercase;
     }
 
-    .why-card h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
+    .signal-strip span:last-child {
+      border-right: 0;
     }
 
-    .why-card p {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-secondary);
-    }
-
-    /* PROJECTS */
-    .projects-list {
+    .section {
       display: grid;
-      gap: 16px;
+      grid-template-columns: var(--rail) 1fr;
+      border-bottom: 1px solid var(--line-strong);
+      scroll-margin-top: 72px;
     }
 
-    .project-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      transition: border-color 0.2s;
+    .section-rail {
+      padding: 64px 28px 64px 0;
+      border-right: 1px solid var(--line);
     }
 
-    .project-card:hover {
-      border-color: var(--border-hover);
-    }
-
-    .project-main {
-      padding: 32px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px 40px;
-    }
-
-    .project-col {
+    .section-content {
       min-width: 0;
+      padding: 64px 0 96px 72px;
     }
 
-    .project-card h3 {
-      grid-column: 1 / -1;
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 0.55fr);
+      gap: 56px;
+      align-items: end;
+      margin-bottom: 64px;
+    }
+
+    .section-heading h2 {
       margin: 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text);
+      font-size: clamp(38px, 5vw, 72px);
+      font-weight: 560;
+      line-height: 0.98;
+      letter-spacing: -0.055em;
     }
 
-    .project-field-label {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-tertiary);
-    }
-
-    .project-field-text {
+    .section-heading p {
       margin: 0;
+      color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
-      color: var(--text-secondary);
     }
 
-    .project-tech {
-      grid-column: 1 / -1;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    .projects {
+      border-top: 1px solid var(--line-strong);
     }
 
-    .project-tech span {
-      padding: 3px 10px;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-tertiary);
-      font-size: 11px;
-      font-weight: 500;
+    .project {
+      border-bottom: 1px solid var(--line-strong);
     }
 
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-      transition: opacity 0.15s;
-    }
-
-    .project-link:hover {
-      opacity: 0.8;
-    }
-
-    .project-screenshots {
-      grid-column: 1 / -1;
-      overflow: hidden;
-    }
-
-    .screenshot-strip {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding-bottom: 4px;
-    }
-
-    .screenshot-strip::-webkit-scrollbar {
-      display: none;
-    }
-
-    .screenshot-strip img {
-      flex-shrink: 0;
-      width: 280px;
-      height: 170px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      object-fit: cover;
-      scroll-snap-align: start;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .screenshot-strip img:hover {
-      opacity: 0.85;
-    }
-
-    .preview-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .preview-overlay.open {
-      opacity: 1;
-    }
-
-    .preview-overlay img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: var(--radius-sm);
-      object-fit: contain;
-      transform: scale(0.95);
-      transition: transform 0.2s;
-    }
-
-    .preview-overlay.open img {
-      transform: scale(1);
-    }
-
-    /* OPEN SOURCE */
-    .oss-grid {
+    .project-header {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: 52px minmax(180px, 0.55fr) minmax(260px, 1fr) auto;
+      gap: 24px;
+      align-items: baseline;
+      padding: 28px 0;
     }
 
-    .oss-card {
-      padding: 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s, background 0.2s;
+    .project h3 {
+      margin: 0;
+      font-size: clamp(23px, 3vw, 36px);
+      font-weight: 560;
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
-    .oss-card:hover {
-      border-color: var(--border-hover);
-      background: var(--surface-hover);
-    }
-
-    .oss-card-featured {
-      border-color: rgba(59, 130, 246, 0.3);
-      background: var(--accent-soft);
-      grid-column: 1 / -1;
-    }
-
-    .oss-card-featured:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      background: rgba(59, 130, 246, 0.15);
-    }
-
-    .oss-card h3 {
-      margin: 0 0 8px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .oss-card p {
-      margin: 0 0 12px;
+    .project-summary {
+      margin: 0;
+      color: #b7bab0;
       font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-secondary);
+      line-height: 1.65;
     }
 
-    .oss-link {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
+    .project-state {
+      color: var(--muted);
+      white-space: nowrap;
     }
 
-    .oss-link:hover {
-      opacity: 0.8;
+    .project-state::before {
+      content: "[";
     }
 
-    /* APPROACH */
-    .approach-list {
-      display: grid;
-      gap: 12px;
+    .project-state::after {
+      content: "]";
     }
 
-    .approach-item {
-      display: grid;
-      grid-template-columns: 32px 1fr;
-      gap: 16px;
-      padding: 20px 24px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s;
+    .project details {
+      border-top: 1px solid var(--line);
     }
 
-    .approach-item:hover {
-      border-color: var(--border-hover);
-    }
-
-    .approach-check {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--green-soft);
-      color: var(--green);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .approach-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .approach-text strong {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .approach-text span {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text-secondary);
-    }
-
-    /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .about-main {
-      padding: 32px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .about-main p {
-      margin: 0 0 16px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: var(--text-secondary);
-    }
-
-    .about-main p:last-child {
-      margin-bottom: 0;
-    }
-
-    .about-titles {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .about-title-card {
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .about-title-card:hover {
-      border-color: var(--border-hover);
-      background: var(--surface-hover);
-    }
-
-    /* CONTACTS */
-    .contacts-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 680px);
-      gap: 20px;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .contact-card {
-      padding: 20px 24px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s;
-    }
-
-    .contact-card:hover {
-      border-color: var(--border-hover);
-    }
-
-    .contact-card-label {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-tertiary);
-    }
-
-    .contact-card-value {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .contact-card-value:hover {
-      color: var(--accent);
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 48px 0 32px;
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
-    }
-
-    .footer-inner {
+    .project summary {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 13px;
-      color: var(--text-tertiary);
+      padding: 15px 0;
+      color: var(--muted);
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .footer-brand {
+    .project summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .project summary::after {
+      color: var(--signal);
+      content: "+ розгорнути";
+    }
+
+    .project details[open] summary::after {
+      content: "− згорнути";
+    }
+
+    .case-study {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-bottom: 24px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .case-field {
+      min-width: 0;
+      padding: 24px;
+      background: var(--bg);
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--muted);
+    }
+
+    .case-field p {
+      margin: 0;
+      color: #c4c6bd;
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 0 28px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .project-tags span::before {
+      margin-right: 7px;
+      color: var(--signal);
+      content: "↳";
+    }
+
+    .text-link {
+      flex: none;
+      color: var(--paper);
+      text-decoration-color: var(--signal);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 5px;
+      font-size: 12px;
+    }
+
+    .text-link:hover {
+      color: var(--signal);
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+    }
+
+    .practice-column h3,
+    .principles-title {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .practice-list,
+    .principles,
+    .oss-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .practice-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .practice-symbol {
+      color: var(--signal);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .practice-item h4 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 560;
+      letter-spacing: -0.025em;
+    }
+
+    .practice-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .principles-wrap {
+      margin-top: 80px;
+    }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 52px minmax(220px, 0.65fr) 1fr;
+      gap: 24px;
+      align-items: baseline;
+      padding: 23px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .principle-number {
+      color: var(--signal);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+
+    .principle strong {
+      font-size: 15px;
+      font-weight: 560;
+    }
+
+    .principle p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .oss-item {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .oss-item a {
+      display: grid;
+      grid-template-columns: 52px minmax(180px, 0.5fr) 1fr auto;
+      gap: 24px;
+      align-items: baseline;
+      padding: 24px 0;
+      text-decoration: none;
+    }
+
+    .oss-item h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 560;
+      letter-spacing: -0.025em;
+    }
+
+    .oss-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .oss-arrow {
+      color: var(--signal);
+      font-family: var(--font-mono);
+      transition: translate 150ms ease;
+    }
+
+    .oss-item a:hover .oss-arrow {
+      translate: 5px 0;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.5fr);
+      gap: 88px;
+    }
+
+    .about-copy p {
+      margin: 0 0 24px;
+      color: #c4c6bd;
+      font-size: clamp(16px, 1.65vw, 20px);
+      line-height: 1.7;
+      letter-spacing: -0.015em;
+    }
+
+    .about-copy p:first-child {
+      color: var(--paper);
+      font-size: clamp(22px, 2.8vw, 34px);
+      line-height: 1.38;
+      letter-spacing: -0.035em;
+    }
+
+    .about-aside {
+      align-self: start;
+      padding-top: 10px;
+    }
+
+    .about-aside dl {
+      margin: 16px 0 0;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .about-aside div {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .about-aside dt {
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-aside dd {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .contact {
+      min-height: 560px;
+    }
+
+    .contact .section-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-title {
+      max-width: 900px;
+      margin: 0 0 80px;
+      font-size: clamp(46px, 7.5vw, 108px);
+      font-weight: 560;
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .contact-title span {
+      color: var(--muted);
+    }
+
+    .contact-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-weight: 600;
-      color: var(--text-secondary);
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
-    /* CLIPBOARD TOAST */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      translate: -50%;
-      padding: 10px 20px;
-      border-radius: var(--radius-full);
-      background: var(--text);
-      color: var(--bg);
-      font-size: 13px;
-      font-weight: 600;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s;
-      z-index: 10000;
+    .email-link {
+      color: var(--paper);
+      text-decoration-color: var(--signal);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 8px;
+      font-size: clamp(17px, 2.2vw, 27px);
+      letter-spacing: -0.025em;
     }
 
-    .toast.show {
-      opacity: 1;
+    .copy-button {
+      padding: 9px 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 0;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    @media (max-width: 768px) {
-      .shell {
-        width: calc(100% - 24px);
+    .copy-button:hover {
+      border-color: var(--signal);
+      color: var(--signal);
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: var(--rail) 1fr auto;
+      align-items: center;
+      width: var(--page);
+      min-height: 88px;
+      margin: 0 auto;
+    }
+
+    .footer-mark {
+      color: var(--signal);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      color: var(--muted);
+    }
+
+    .footer-top {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-top:hover {
+      color: var(--signal);
+    }
+
+    @media (max-width: 960px) {
+      :host {
+        --page: min(100% - 32px, 920px);
+        --rail: 112px;
       }
 
+      .site-header {
+        grid-template-columns: var(--rail) 1fr;
+      }
+
+      .header-contact {
+        display: none;
+      }
+
+      .main-nav {
+        justify-content: flex-end;
+        gap: 18px;
+      }
+
+      .hero-content,
+      .section-content {
+        padding-left: 40px;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .project-header {
+        grid-template-columns: 40px minmax(150px, 0.5fr) 1fr;
+      }
+
+      .project-state {
+        display: none;
+      }
+
+      .practice-grid {
+        gap: 40px;
+      }
+
+      .about-layout {
+        gap: 48px;
+      }
+
+      footer {
+        grid-template-columns: var(--rail) 1fr auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :host {
+        --page: calc(100% - 24px);
+      }
+
+      .site-header {
+        display: flex;
+        min-height: 60px;
+        gap: 24px;
+        overflow-x: auto;
+      }
+
+      .wordmark {
+        position: sticky;
+        left: 0;
+        flex: none;
+        padding-right: 14px;
+        background: rgba(11, 12, 10, 0.96);
+      }
+
+      .main-nav {
+        justify-content: flex-start;
+        gap: 18px;
+      }
+
+      .main-nav a {
+        flex: none;
+      }
+
+      .hero,
       .section {
-        padding: 60px 0;
+        display: block;
       }
 
       .hero {
-        padding: 60px 0 40px;
         min-height: auto;
       }
 
-      .nav-links {
-        position: fixed;
-        top: calc(var(--nav-height) + 12px);
-        left: var(--shell-padding, 12px);
-        right: var(--shell-padding, 12px);
-        background: rgba(10, 10, 11, 0.98);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        flex-direction: column;
-        padding: 16px;
-        gap: 8px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
+      .hero-rail {
+        display: block;
+        padding: 28px 0 0;
+        border-right: 0;
+      }
+
+      .rail-note {
         display: none;
-        z-index: 99;
       }
 
-      .nav-links.open {
-        display: flex;
+      .hero-content {
+        padding: 44px 0 56px;
       }
 
-      .nav-links a {
-        width: 100%;
-        text-align: center;
-        padding: 12px 16px;
+      .hero h1 {
+        margin-top: 22px;
+        font-size: clamp(52px, 17vw, 82px);
       }
 
-      .nav-toggle {
-        display: flex;
+      .hero-meta {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 48px;
       }
 
-      .shell {
-        --shell-padding: 12px;
+      .meta-item {
+        display: grid;
+        grid-template-columns: 110px 1fr;
       }
 
-      .services-grid {
+      .signal-strip {
+        overflow-x: auto;
+      }
+
+      .signal-strip span {
+        flex: none;
+        min-width: 190px;
+      }
+
+      .section-rail {
+        padding: 44px 0 0;
+        border-right: 0;
+      }
+
+      .section-content {
+        padding: 28px 0 64px;
+      }
+
+      .section-heading {
+        margin-bottom: 42px;
+      }
+
+      .project-header {
+        grid-template-columns: 34px 1fr;
+        gap: 16px;
+      }
+
+      .project-summary {
+        grid-column: 2;
+      }
+
+      .case-study {
         grid-template-columns: 1fr;
       }
 
-      .service-card {
-        padding: 24px;
+      .project-footer {
+        display: block;
       }
 
-      .why-grid {
+      .text-link {
+        display: inline-block;
+        margin-top: 20px;
+      }
+
+      .practice-grid,
+      .about-layout {
         grid-template-columns: 1fr;
       }
 
-      .project-main {
-        grid-template-columns: 1fr;
-        padding: 24px;
+      .practice-grid {
+        gap: 56px;
       }
 
-      .oss-grid {
-        grid-template-columns: 1fr;
+      .principle {
+        grid-template-columns: 34px 1fr;
+        gap: 16px;
       }
 
-      .about-grid {
-        grid-template-columns: 1fr;
+      .principle p {
+        grid-column: 2;
       }
 
-      .contacts-grid {
-        grid-template-columns: 1fr;
+      .oss-item a {
+        grid-template-columns: 34px 1fr auto;
+        gap: 16px;
       }
 
-      .section-title {
-        margin-bottom: 28px;
+      .oss-item p {
+        grid-column: 2 / -1;
       }
 
-      .hero-actions {
-        flex-direction: column;
-        width: 100%;
+      .contact {
+        min-height: 460px;
       }
 
-      .hero-actions .btn {
-        width: 100%;
+      .contact-title {
+        margin-bottom: 56px;
       }
 
-      .footer-inner {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
+      footer {
+        grid-template-columns: 1fr auto;
+      }
+
+      .footer-mark {
+        display: none;
       }
     }
 
-    @media (max-width: 480px) {
-      .hero-stack span {
-        font-size: 11px;
-        padding: 3px 10px;
-      }
-
-      .screenshot-strip img {
-        width: 220px;
-        height: 135px;
-      }
-    }
-
-    @media (max-width: 320px) {
-      .shell {
-        width: calc(100% - 16px);
-      }
-
-      .section {
-        padding: 40px 0;
-      }
-
-      .hero {
-        padding: 40px 0 24px;
-      }
-
-      .hero-badge {
-        font-size: 11px;
-        padding: 4px 10px 4px 6px;
-      }
-
-      h1 {
-        font-size: clamp(24px, 7vw, 32px);
-      }
-
-      .hero p {
-        font-size: 14px;
-      }
-
-      .btn {
-        height: 40px;
-        padding: 0 18px;
-        font-size: 13px;
-      }
-
-      .section-title {
-        font-size: clamp(22px, 6vw, 28px);
-        margin-bottom: 32px;
-      }
-
-      .section-subtitle {
-        font-size: 13px;
-        margin: 0 0 32px;
-      }
-
-      .service-card,
-      .why-card,
-      .oss-card,
-      .approach-item {
-        padding: 20px;
-      }
-
-      .project-main {
-        padding: 20px;
-      }
-
-      .project-field-text {
-        font-size: 13px;
-      }
-
-      .project-tech span {
-        font-size: 10px;
-        padding: 2px 8px;
-      }
-
-      .about-main {
-        padding: 20px;
-      }
-
-      .about-title-card {
-        font-size: 13px;
-        padding: 12px 16px;
-      }
-
-      .nav-logo {
-        width: 24px;
-        height: 24px;
-        font-size: 10px;
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 
-  <div class="shell">
-    <nav aria-label="Основна навігація">
-      <a class="nav-brand" href="#top">
-        <span class="nav-logo">UP</span>
-        <span>ua-pages</span>
-      </a>
-      <div class="nav-links" id="navLinks">
-        <a href="#services">Що я будую</a>
-        <a href="#why">Підхід</a>
-        <a href="#projects">Проєкти</a>
-        <a href="#opensource">Open Source</a>
-        <a href="#about">Про мене</a>
-        <a href="#contact" class="nav-cta" style="color:var(--accent)">Контакти</a>
-      </div>
-      <button class="nav-toggle" id="navToggle" aria-label="Відкрити меню" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
+  <a class="skip-link" href="#work" data-scroll>До проєктів</a>
+
+  <header class="site-header">
+    <a class="wordmark" href="#top" data-scroll>
+      <span class="wordmark-mark">ua</span>/pages
+    </a>
+    <nav class="main-nav" aria-label="Основна навігація">
+      <a href="#work" data-scroll><span class="nav-index">01</span>Проєкти</a>
+      <a href="#practice" data-scroll><span class="nav-index">02</span>Підхід</a>
+      <a href="#open-source" data-scroll><span class="nav-index">03</span>Open source</a>
+      <a href="#about" data-scroll><span class="nav-index">04</span>Про мене</a>
     </nav>
+    <a class="header-contact" href="#contact" data-scroll>Контакт</a>
+  </header>
 
-    <section id="top" class="hero">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        <span>Software Engineer · Львів</span>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-rail">
+        <span class="eyebrow">Software Engineer</span>
+        <span class="rail-note">Lviv · Ukraine · 2026</span>
       </div>
-      <h1>Будую основу,<br><span class="highlight">на якій працюють інші</span></h1>
-      <p>${brand.headline}</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" id="contactBtn">Зв’язатися</a>
-        <a class="btn btn-secondary" id="projectsBtn">Переглянути роботи</a>
-      </div>
-      <div class="hero-stack" id="heroStack"></div>
-    </section>
-
-    <section id="services" class="section">
-      <span class="section-label">Напрями</span>
-      <h2 class="section-title">Що я будую</h2>
-      <p class="section-subtitle">Не каталог послуг, а напрями інженерної роботи: від локальних інструментів до основи, на якій розвивається продукт.</p>
-      <div class="services-grid" id="servicesGrid"></div>
-    </section>
-
-    <section id="why" class="section">
-      <span class="section-label">Інженерна робота</span>
-      <h2 class="section-title">Що я привношу в систему</h2>
-      <p class="section-subtitle">Архітектурне мислення, робоча основа для команди та рішення, які можна підтримувати й пояснювати.</p>
-      <div class="why-grid" id="whyGrid"></div>
-    </section>
-
-    <section id="projects" class="section">
-      <span class="section-label">Портфоліо</span>
-      <h2 class="section-title">Вибрані інженерні проєкти</h2>
-      <p class="section-subtitle">Реальні системи й інструменти: навіщо вони існують, як влаштовані та який результат уже дають.</p>
-      <div class="projects-list" id="projectsList"></div>
-    </section>
-
-    <section id="opensource" class="section">
-      <span class="section-label">Open Source</span>
-      <h2 class="section-title">Відкриті інструменти й знання</h2>
-      <p class="section-subtitle">Проєкти, які роблять веб доступнішим, а інженерні практики — зрозумілішими українською.</p>
-      <div class="oss-grid" id="ossGrid"></div>
-    </section>
-
-    <section id="approach" class="section">
-      <span class="section-label">Принципи</span>
-      <h2 class="section-title">Як я приймаю рішення</h2>
-      <p class="section-subtitle">Залежності, AI та архітектура — інструменти й компроміси, а не частина особистого бренду.</p>
-      <div class="approach-list" id="approachList"></div>
-    </section>
-
-    <section id="about" class="section">
-      <span class="section-label">Про мене</span>
-      <h2 class="section-title">Олександр Васильєв</h2>
-      <div class="about-grid">
-        <div class="about-main" id="aboutText"></div>
-        <div class="about-titles" id="aboutTitles"></div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <span class="section-label">Контакти</span>
-      <h2 class="section-title">Поговорімо про систему або інструмент</h2>
-      <p class="section-subtitle">Якщо вам близький такий спосіб роботи — напишіть напряму. Без форми, що обіцяє більше, ніж може виконати статичний сайт.</p>
-      <div class="contacts-grid">
-        <div class="contact-info">
-          <div class="contact-card">
-            <span class="contact-card-label">Email</span>
-            <a class="contact-card-value" id="emailDisplay" href="mailto:oleksandr.morlock@gmail.com">oleksandr.morlock@gmail.com</a>
-            <button class="btn btn-secondary" id="copyEmailBtn" style="margin-top:10px;height:34px;padding:0 14px;font-size:12px;width:auto">Копіювати</button>
+      <div class="hero-content">
+        <span class="eyebrow">Олександр Васильєв / ua-pages</span>
+        <h1 id="hero-title">Будую основу,<span>на якій працюють інші.</span></h1>
+        <p class="hero-intro">${brand.headline}</p>
+        <div class="hero-meta" aria-label="Коротка інформація">
+          <div class="meta-item">
+            <span class="micro-label">Локація</span>
+            <span class="meta-value">${profile.location.replace('🇺🇦 ', '')}</span>
           </div>
-          <div class="contact-card">
-            <span class="contact-card-label">GitHub</span>
-            <a class="contact-card-value" id="githubDisplay" href="https://github.com/ua-pages" target="_blank" rel="noreferrer">github.com/ua-pages</a>
+          <div class="meta-item">
+            <span class="micro-label">Досвід</span>
+            <span class="meta-value">10+ років у веброзробці</span>
           </div>
-          <div class="contact-card" style="background:var(--accent-soft);border-color:rgba(59,130,246,0.2)">
-            <span class="contact-card-label" style="color:var(--accent)">Написати напряму</span>
-            <p style="margin:4px 0 0;font-size:13px;color:var(--text-secondary);line-height:1.6">Надсилайте email на вказану адресу — я завжди на зв'язку.</p>
+          <div class="meta-item">
+            <span class="micro-label">Фокус</span>
+            <span class="meta-value">Основа продукту й DX</span>
           </div>
         </div>
       </div>
     </section>
 
-    <footer>
-      <div class="footer-inner">
-        <span class="footer-brand">ua-pages</span>
-        <span>&copy; 2026 Олександр Васильєв</span>
-      </div>
-    </footer>
-  </div>
+    <div class="signal-strip" id="signalStrip" aria-label="Інженерні напрями"></div>
 
-  <div class="toast" id="toast"></div>
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="section-rail">
+        <span class="section-label">01 / Work</span>
+      </div>
+      <div class="section-content">
+        <div class="section-heading">
+          <h2 id="work-title">Вибрані<br>системи</h2>
+          <p>Не галерея технологій, а проєкти з конкретною проблемою, інженерним рішенням і результатом.</p>
+        </div>
+        <div class="projects" id="projectsList"></div>
+      </div>
+    </section>
+
+    <section class="section" id="practice" aria-labelledby="practice-title">
+      <div class="section-rail">
+        <span class="section-label">02 / Practice</span>
+      </div>
+      <div class="section-content">
+        <div class="section-heading">
+          <h2 id="practice-title">Спосіб<br>роботи</h2>
+          <p>Мене цікавить не складність сама по собі, а система, яку команда може зрозуміти, підтримати й розвивати.</p>
+        </div>
+        <div class="practice-grid">
+          <div class="practice-column">
+            <h3>Напрями</h3>
+            <ul class="practice-list" id="servicesList"></ul>
+          </div>
+          <div class="practice-column">
+            <h3>Що привношу в систему</h3>
+            <ul class="practice-list" id="judgementList"></ul>
+          </div>
+        </div>
+        <div class="principles-wrap">
+          <h3 class="principles-title">Принципи прийняття рішень</h3>
+          <ol class="principles" id="principlesList"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="open-source" aria-labelledby="oss-title">
+      <div class="section-rail">
+        <span class="section-label">03 / Open</span>
+      </div>
+      <div class="section-content">
+        <div class="section-heading">
+          <h2 id="oss-title">Відкриті<br>артефакти</h2>
+          <p>Інструменти, експерименти й стандарти, які можна відкрити, прочитати та перевірити.</p>
+        </div>
+        <ol class="oss-list" id="ossList"></ol>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="section-rail">
+        <span class="section-label">04 / About</span>
+      </div>
+      <div class="section-content">
+        <div class="section-heading">
+          <h2 id="about-title">Контекст,<br>не тайтл</h2>
+          <p>${profile.persona}</p>
+        </div>
+        <div class="about-layout">
+          <div class="about-copy" id="aboutCopy"></div>
+          <aside class="about-aside">
+            <span class="micro-label">Робочі координати</span>
+            <dl id="aboutMeta"></dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="section-rail">
+        <span class="section-label">05 / Contact</span>
+      </div>
+      <div class="section-content">
+        <h2 class="contact-title" id="contact-title">Є система,<br><span>яку варто спростити?</span></h2>
+        <div class="contact-actions">
+          <a class="email-link" href="mailto:${profile.email}">${profile.email}</a>
+          <button class="copy-button" id="copyEmail" type="button">Копіювати email</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="footer-mark">UP</span>
+    <span class="footer-note">Спроєктовано й зібрано без build step</span>
+    <a class="footer-top" href="#top" data-scroll>Нагору ↑</a>
+  </footer>
 `;
 
 export class AppRoot extends HTMLElement {
@@ -1055,244 +1060,199 @@ export class AppRoot extends HTMLElement {
   }
 
   connectedCallback() {
-    this.renderHeroStack();
-    this.renderServices();
-    this.renderWhy();
+    this.renderSignalStrip();
     this.renderProjects();
+    this.renderPractice();
     this.renderOpenSource();
-    this.renderApproach();
     this.renderAbout();
     this.setupInteractions();
   }
 
-  renderHeroStack() {
-    const container = this.shadowRoot.getElementById('heroStack');
-    stack.forEach(s => {
-      const span = document.createElement('span');
-      span.textContent = s;
-      container.appendChild(span);
-    });
-  }
-
-  renderServices() {
-    const grid = this.shadowRoot.getElementById('servicesGrid');
-    services.forEach(s => {
-      const card = document.createElement('div');
-      card.className = 'service-card';
-      card.innerHTML = `<h3>${s.title}</h3><p>${s.description}</p>`;
-      grid.appendChild(card);
-    });
-  }
-
-  renderWhy() {
-    const grid = this.shadowRoot.getElementById('whyGrid');
-    whyUaPages.forEach(w => {
-      const card = document.createElement('div');
-      card.className = 'why-card';
-      card.innerHTML = `
-        <div class="why-icon">${w.icon}</div>
-        <h3>${w.title}</h3>
-        <p>${w.description}</p>
-      `;
-      grid.appendChild(card);
+  renderSignalStrip() {
+    const strip = this.shadowRoot.getElementById('signalStrip');
+    stack.forEach(item => {
+      const label = document.createElement('span');
+      label.textContent = item;
+      strip.appendChild(label);
     });
   }
 
   renderProjects() {
     const list = this.shadowRoot.getElementById('projectsList');
-    projects.forEach((p, idx) => {
-      const card = document.createElement('div');
-      card.className = 'project-card';
-      card.dataset.idx = idx;
 
-      let screenshotsHtml = '';
-      if (p.screenshots && p.screenshots.length) {
-        const imgs = p.screenshots.map(s => `<img src="${s}" alt="${p.title}" loading="lazy" />`).join('');
-        screenshotsHtml = `<div class="project-screenshots"><div class="screenshot-strip" data-track="${idx}">${imgs}</div></div>`;
-      }
+    projects.forEach((project, index) => {
+      const article = document.createElement('article');
+      const tags = project.tech
+        .split(' · ')
+        .map(tag => `<span>${tag}</span>`)
+        .join('');
+      const projectLink = project.url
+        ? `<a class="text-link" href="${project.url}" target="_blank" rel="noreferrer">Відкрити проєкт ↗</a>`
+        : '<span class="project-state">приватний репозиторій</span>';
 
-      const projectLinkHtml = p.url
-        ? `<a class="project-link" href="${p.url}" target="_blank" rel="noreferrer">Відкрити проєкт →</a>`
-        : '<span class="project-link">Приватний проєкт</span>';
+      article.className = 'project';
+      article.innerHTML = `
+        <div class="project-header">
+          <span class="project-number">${String(index + 1).padStart(2, '0')}</span>
+          <h3>${project.title}</h3>
+          <p class="project-summary">${project.problem}</p>
+          <span class="project-state">${project.private ? 'private' : 'public'}</span>
+        </div>
+        <details>
+          <summary>Інженерний розбір</summary>
+          <div class="case-study">
+            <div class="case-field">
+              <span class="field-label">Проблема</span>
+              <p>${project.problem}</p>
+            </div>
+            <div class="case-field">
+              <span class="field-label">Рішення</span>
+              <p>${project.solution}</p>
+            </div>
+            <div class="case-field">
+              <span class="field-label">Результат</span>
+              <p>${project.result}</p>
+            </div>
+          </div>
+          <div class="project-footer">
+            <div class="project-tags">${tags}</div>
+            ${projectLink}
+          </div>
+        </details>
+      `;
+      list.appendChild(article);
+    });
+  }
 
-      card.innerHTML = `
-        <div class="project-main">
-          <h3>${p.title}</h3>
-          <div class="project-col">
-            <span class="project-field-label">Проблема</span>
-            <p class="project-field-text">${p.problem}</p>
-          </div>
-          <div class="project-col">
-            <span class="project-field-label">Рішення</span>
-            <p class="project-field-text">${p.solution}</p>
-          </div>
-          <div class="project-col">
-            <span class="project-field-label">Результат</span>
-            <p class="project-field-text">${p.result}</p>
-          </div>
-          <div class="project-col">
-            <span class="project-field-label">Посилання</span>
-            ${projectLinkHtml}
-          </div>
-          <div class="project-tech">
-            ${p.tech.split(' · ').map(t => `<span>${t}</span>`).join('')}
-          </div>
-          ${screenshotsHtml}
+  renderPractice() {
+    const directions = this.shadowRoot.getElementById('servicesList');
+    const judgement = this.shadowRoot.getElementById('judgementList');
+    const principles = this.shadowRoot.getElementById('principlesList');
+
+    services.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.className = 'practice-item';
+      li.innerHTML = `
+        <span class="practice-symbol">${String(index + 1).padStart(2, '0')}</span>
+        <div>
+          <h4>${item.title}</h4>
+          <p>${item.description}</p>
         </div>
       `;
-      list.appendChild(card);
+      directions.appendChild(li);
+    });
+
+    whyUaPages.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'practice-item';
+      li.innerHTML = `
+        <span class="practice-symbol">${item.icon}</span>
+        <div>
+          <h4>${item.title}</h4>
+          <p>${item.description}</p>
+        </div>
+      `;
+      judgement.appendChild(li);
+    });
+
+    approach.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.className = 'principle';
+      li.innerHTML = `
+        <span class="principle-number">${String(index + 1).padStart(2, '0')}</span>
+        <strong>${item.text}</strong>
+        <p>${item.description}</p>
+      `;
+      principles.appendChild(li);
     });
   }
 
   renderOpenSource() {
-    const grid = this.shadowRoot.getElementById('ossGrid');
-    openSource.forEach(o => {
-      const card = document.createElement('div');
-      const classes = ['oss-card'];
-      if (o.featured) classes.push('oss-card-featured');
-      card.className = classes.join(' ');
-      card.innerHTML = `
-        <h3>${o.title}</h3>
-        <p>${o.description}</p>
-        <a class="oss-link" href="${o.url}" target="_blank" rel="noreferrer">Дізнатись більше →</a>
-      `;
-      grid.appendChild(card);
-    });
-  }
+    const list = this.shadowRoot.getElementById('ossList');
 
-  renderApproach() {
-    const list = this.shadowRoot.getElementById('approachList');
-    approach.forEach(a => {
-      const item = document.createElement('div');
-      item.className = 'approach-item';
-      item.innerHTML = `
-        <div class="approach-check">${a.icon}</div>
-        <div class="approach-text">
-          <strong>${a.text}</strong>
-          <span>${a.description}</span>
-        </div>
+    openSource.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.className = 'oss-item';
+      li.innerHTML = `
+        <a href="${item.url}" target="_blank" rel="noreferrer">
+          <span class="project-number">${String(index + 1).padStart(2, '0')}</span>
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+          <span class="oss-arrow" aria-hidden="true">↗</span>
+        </a>
       `;
-      list.appendChild(item);
+      list.appendChild(li);
     });
   }
 
   renderAbout() {
-    const container = this.shadowRoot.getElementById('aboutText');
-    profile.about.forEach(p => {
-      const pEl = document.createElement('p');
-      pEl.textContent = p;
-      container.appendChild(pEl);
+    const copy = this.shadowRoot.getElementById('aboutCopy');
+    const meta = this.shadowRoot.getElementById('aboutMeta');
+
+    profile.about.forEach(paragraph => {
+      const p = document.createElement('p');
+      p.textContent = paragraph;
+      copy.appendChild(p);
     });
 
-    const titlesContainer = this.shadowRoot.getElementById('aboutTitles');
-    profile.titles.forEach(t => {
-      const card = document.createElement('div');
-      card.className = 'about-title-card';
-      card.textContent = t;
-      titlesContainer.appendChild(card);
+    const facts = [
+      ['Роль', profile.role],
+      ['Локація', profile.location.replace('🇺🇦 ', '')],
+      ['GitHub', 'github.com/ua-pages'],
+      ['Мова', 'Українська / English'],
+      ['Середовище', profile.titles.join(' · ')],
+    ];
+
+    facts.forEach(([term, value]) => {
+      const row = document.createElement('div');
+      row.innerHTML = `<dt>${term}</dt><dd>${value}</dd>`;
+      meta.appendChild(row);
     });
   }
 
   setupInteractions() {
-    const root = this.shadowRoot;
-    const sections = ['services', 'why', 'projects', 'opensource', 'about', 'contact'];
-    const navLinks = root.querySelectorAll('.nav-links a');
-    const navToggle = root.getElementById('navToggle');
-    const navLinksContainer = root.getElementById('navLinks');
-
-    function smoothScrollTo(el) {
-      const start = window.scrollY;
-      const target = el.getBoundingClientRect().top + start - 24;
-      const dist = target - start;
-      const dur = 700;
-      const startTime = performance.now();
-      requestAnimationFrame(function scroll(now) {
-        const t = Math.min((now - startTime) / dur, 1);
-        const ease = 1 - Math.pow(1 - t, 3);
-        window.scrollTo(0, start + dist * ease);
-        if (t < 1) requestAnimationFrame(scroll);
-      });
-    }
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        navLinksContainer.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        const id = link.getAttribute('href').slice(1);
-        const el = root.getElementById(id) || document.getElementById(id);
-        if (el) smoothScrollTo(el);
+    this.shadowRoot.querySelectorAll('[data-scroll]').forEach(link => {
+      link.addEventListener('click', event => {
+        const id = link.getAttribute('href');
+        const target = this.shadowRoot.querySelector(id);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
 
-    navToggle.addEventListener('click', () => {
-      const isOpen = navLinksContainer.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', isOpen);
-    });
-
-    document.addEventListener('click', (e) => {
-      if (navLinksContainer.classList.contains('open') && !e.composedPath().includes(root.querySelector('nav'))) {
-        navLinksContainer.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
+    const copyButton = this.shadowRoot.getElementById('copyEmail');
+    copyButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(profile.email);
+        copyButton.textContent = 'Email скопійовано';
+      } catch {
+        copyButton.textContent = profile.email;
       }
+
+      window.setTimeout(() => {
+        copyButton.textContent = 'Копіювати email';
+      }, 2200);
     });
 
-    root.getElementById('contactBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      const el = root.getElementById('contact');
-      if (el) smoothScrollTo(el);
-    });
+    const sections = [...this.shadowRoot.querySelectorAll('main > section[id]')];
+    const navLinks = [...this.shadowRoot.querySelectorAll('.main-nav a')];
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-    root.getElementById('projectsBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      const el = root.getElementById('projects');
-      if (el) smoothScrollTo(el);
-    });
-
-    const copyBtn = root.getElementById('copyEmailBtn');
-    const toast = root.getElementById('toast');
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(profile.email).then(() => {
-        toast.textContent = 'Email скопійовано';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-      }).catch(() => {
-        const ta = document.createElement('textarea');
-        ta.value = profile.email;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        toast.textContent = 'Email скопійовано';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+      if (!visible) return;
+      navLinks.forEach(link => {
+        const active = link.getAttribute('href') === `#${visible.target.id}`;
+        link.toggleAttribute('aria-current', active);
       });
+    }, {
+      rootMargin: '-20% 0px -65%',
+      threshold: [0, 0.25, 0.5],
     });
 
-    root.addEventListener('click', (e) => {
-      const img = e.target.closest('.screenshot-strip img');
-      if (img) {
-        if (this._previewOverlay) return;
-        const overlay = document.createElement('div');
-        overlay.className = 'preview-overlay';
-        const full = document.createElement('img');
-        full.src = img.src;
-        full.alt = img.alt;
-        overlay.appendChild(full);
-        overlay.addEventListener('click', () => {
-          if (overlay.dataset.closing) return;
-          overlay.dataset.closing = '1';
-          overlay.classList.remove('open');
-          overlay.addEventListener('transitionend', () => {
-            overlay.remove();
-            this._previewOverlay = null;
-          }, { once: true });
-        });
-        root.appendChild(overlay);
-        this._previewOverlay = overlay;
-        requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('open')));
-      }
-    });
+    sections.forEach(section => observer.observe(section));
   }
 }
 
