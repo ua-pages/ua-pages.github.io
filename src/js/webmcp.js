@@ -35,8 +35,8 @@ function initWebMCP() {
         },
       },
       {
-        name: 'get-services',
-        description: 'Отримати список послуг, які пропонує розробник',
+        name: 'get-focus-areas',
+        description: 'Отримати напрями інженерної роботи Олександра',
         inputSchema: {
           type: 'object',
           properties: {},
@@ -91,7 +91,7 @@ function initWebMCP() {
           properties: {
             title: {
               type: 'string',
-              description: 'Назва проєкту (наприклад: "Tarot UA", "Color Adapt UA", "CodeHealth UA", "Leaf Viewer UA")',
+              description: 'Назва проєкту (наприклад: "DevNest", "Seed", "IT Терміносфера", "ua-pages")',
             },
           },
           required: ['title'],
@@ -111,8 +111,8 @@ function initWebMCP() {
         },
       },
       {
-        name: 'get-stack',
-        description: 'Отримати технологічний стек розробника',
+        name: 'get-engineering-focus',
+        description: 'Отримати інженерні напрями, сильні сторони та принципи прийняття рішень',
         inputSchema: {
           type: 'object',
           properties: {},
@@ -131,7 +131,7 @@ function initWebMCP() {
       },
       {
         name: 'get-open-source',
-        description: 'Отримати список open-source проєктів та внесків у спільноту',
+        description: 'Отримати список відкритих інструментів і внесків у спільноту',
         inputSchema: {
           type: 'object',
           properties: {},
@@ -149,76 +149,8 @@ function initWebMCP() {
         },
       },
       {
-        name: 'submit-contact',
-        description: 'Надіслати заявку на співпруцю через форму контактів',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-              description: 'Ім\'я або назва компанії',
-            },
-            contact: {
-              type: 'string',
-              description: 'Email, Telegram або LinkedIn для зв\'язку',
-            },
-            service: {
-              type: 'string',
-              description: 'Тип послуги',
-              enum: [
-                'Бізнес-система / внутрішній портал',
-                'CRM / ERP рішення',
-                'Автоматизація бізнес-процесів',
-                'Корпоративний веб-додаток',
-                'MVP для стартапу',
-                'AI-інтеграція',
-                'Технічний аудит',
-                'Інше',
-              ],
-            },
-            message: {
-              type: 'string',
-              description: 'Опис задачі або проєкту',
-            },
-          },
-          required: ['name', 'contact', 'message'],
-        },
-        async execute({ name, contact, service, message }, agent) {
-          const confirmed = await agent.requestUserInteraction(async () => {
-            return new Promise(resolve => {
-              const ok = confirm(
-                `Надіслати заявку?\n\nІм\'я: ${name}\nКонтакт: ${contact}\nПослуга: ${service || 'Не вказано'}\nПовідомлення: ${message}`,
-              );
-              resolve(ok);
-            });
-          });
-
-          if (!confirmed) {
-            return {
-              content: [{ type: 'text', text: 'Надсилання заявки скасовано користувачем.' }],
-            };
-          }
-
-          try {
-            const res = await fetch('/api/contact', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ name, contact, service, message }),
-            });
-            if (!res.ok) throw new Error('Failed');
-            return {
-              content: [{ type: 'text', text: 'Заявку надіслано успішно. Олександр відповість найближчим часом.' }],
-            };
-          } catch {
-            return {
-              content: [{ type: 'text', text: `Не вдалося надіслати заявку. Напишіть на email: ${profile.email}` }],
-            };
-          }
-        },
-      },
-      {
         name: 'navigate-to-section',
-        description: 'Перейти до секції на сторінці (hero, services, why, projects, opensource, about, contact)',
+        description: 'Перейти до секції портфоліо (напрями, підхід, проєкти, open source, про мене, контакти)',
         inputSchema: {
           type: 'object',
           properties: {
@@ -231,7 +163,8 @@ function initWebMCP() {
           required: ['section'],
         },
         execute({ section }) {
-          const el = document.getElementById(section);
+          const el = document.querySelector('app-root')?.shadowRoot?.getElementById(section)
+            || document.getElementById(section);
           if (el) {
             el.scrollIntoView({ behavior: 'smooth' });
             return {
