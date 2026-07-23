@@ -7,7 +7,7 @@
     "start": "echo \"Static project — serve the 'portfolio' folder with your static host (GitHub Pages).\"",
     "start:dev": "echo \"Static project — no built-in dev server. Use a static server if needed.\""
   },
-  "description": "ua-pages — Сучасна веб-розробка для українського бізнесу. Сайт-портфоліо Олександра Васильєва.",
+  "description": "Інженерне портфоліо Олександра Васильєва — developer tooling, platform engineering і вебсистеми.",
   "repository": {
     "type": "git",
     "url": "git@github.com:ua-pages/oleksandr-dev-portfolio.git"
