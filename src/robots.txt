@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ua-pages.github.io/oleksandr-dev-portfolio/sitemap.xml
+Sitemap: https://ua-pages.github.io/sitemap.xml
