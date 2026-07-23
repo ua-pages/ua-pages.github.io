@@ -1,44 +1,39 @@
-# Портфоліо Олександра Васильєва
+# ua-pages — інженерне портфоліо
 
-Персональний сайт-портфоліо. Senior Software Engineer / Frontend Architect.
+Персональний сайт Олександра Васильєва про інженерні проєкти, developer tooling, platform engineering і технічний підхід.
 
-## Стек
+Живий сайт: https://ua-pages.github.io/oleksandr-dev-portfolio/
 
-- Vanilla JS Web Components
-- Node.js HTTP server
-- CSS (власні стилі)
+## Основа
 
-## Запуск
+- Vanilla JavaScript і ES Modules
+- Web Components
+- CSS custom properties
+- статичний GitHub Pages deployment
+- без build step
+
+Контент зберігається окремо від представлення у `src/js/data/portfolio-content.js`.
+
+## Локальний перегляд
+
+Сайт потребує звичайного статичного сервера:
 
 ```bash
-npm start          # production mode
-npm run start:dev  # dev mode з --watch
+python3 -m http.server 4200 --directory src
 ```
 
-Сайт буде доступний на `http://localhost:4200`.
-
-## Як це працює
-
-Фронтенд — SPA на нативних Web Components без фреймворків.
-Сайт роздається статично через GitHub Pages з `portfolio/` директорії.
-Форма заявки надсилає POST-запит на `/api/contact`. Сервер валідує дані та пересилає повідомлення в Telegram через Bot API.
+Після цього він буде доступний на `http://localhost:4200`.
 
 ## Структура
 
-```
-├── portfolio/
-│   ├── index.html
-│   ├── assets/
-│   ├── css/
-│   ├── js/
-│   │   └── components/
-│   │       ├── app-root.js
-│   │       └── lead-intake.js
-│   ├── robots.txt
-│   └── sitemap.xml
-├── package.json
-├── ROADMAP.md
-└── README.md
+```text
+src/
+├── index.html
+├── css/
+├── assets/
+└── js/
+    ├── components/
+    └── data/
 ```
 
 ## Ліцензія
