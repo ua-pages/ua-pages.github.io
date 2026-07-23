@@ -756,23 +756,32 @@ template.innerHTML = `
       }
 
       .site-header {
-        display: flex;
-        min-height: 60px;
-        gap: 24px;
-        overflow-x: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding: 12px 0 10px;
+        gap: 0;
+        overflow: visible;
       }
 
       .wordmark {
-        position: sticky;
-        left: 0;
-        flex: none;
-        padding-right: 14px;
-        background: rgba(11, 12, 10, 0.96);
+        position: static;
+        padding: 0 0 10px;
+        background: none;
       }
 
       .main-nav {
+        width: 100%;
         justify-content: flex-start;
         gap: 18px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .main-nav::-webkit-scrollbar {
+        display: none;
       }
 
       .main-nav a {
@@ -804,7 +813,12 @@ template.innerHTML = `
 
       .hero h1 {
         margin-top: 22px;
-        font-size: clamp(52px, 17vw, 82px);
+        font-size: clamp(44px, 14.5vw, 72px);
+        overflow-wrap: break-word;
+      }
+
+      .hero-intro {
+        font-size: 16px;
       }
 
       .hero-meta {
@@ -840,6 +854,10 @@ template.innerHTML = `
         margin-bottom: 42px;
       }
 
+      .section-heading h2 {
+        font-size: clamp(36px, 11vw, 52px);
+      }
+
       .project-header {
         grid-template-columns: 34px 1fr;
         gap: 16px;
@@ -851,6 +869,10 @@ template.innerHTML = `
 
       .case-study {
         grid-template-columns: 1fr;
+      }
+
+      .case-field {
+        padding: 20px;
       }
 
       .project-footer {
@@ -895,6 +917,16 @@ template.innerHTML = `
 
       .contact-title {
         margin-bottom: 56px;
+        font-size: clamp(40px, 13vw, 64px);
+      }
+
+      .contact-actions {
+        align-items: flex-start;
+      }
+
+      .email-link {
+        max-width: 100%;
+        overflow-wrap: anywhere;
       }
 
       footer {
@@ -903,6 +935,52 @@ template.innerHTML = `
 
       .footer-mark {
         display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      :host {
+        --page: calc(100% - 20px);
+      }
+
+      .main-nav {
+        gap: 14px;
+      }
+
+      .nav-index {
+        display: none;
+      }
+
+      .hero-content {
+        padding-top: 36px;
+      }
+
+      .hero h1 {
+        font-size: clamp(42px, 14vw, 58px);
+        letter-spacing: -0.065em;
+      }
+
+      .meta-item {
+        grid-template-columns: 92px 1fr;
+      }
+
+      .project-header,
+      .principle {
+        grid-template-columns: 28px 1fr;
+        gap: 12px;
+      }
+
+      .oss-item a {
+        grid-template-columns: 28px 1fr auto;
+        gap: 12px;
+      }
+
+      .about-copy p:first-child {
+        font-size: 21px;
+      }
+
+      footer {
+        gap: 16px;
       }
     }
 
