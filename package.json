@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 4200 --directory src"
+    "start": "node scripts/serve.mjs"
   },
   "description": "Інженерне портфоліо Олександра Васильєва — developer tooling, platform engineering і вебсистеми.",
   "repository": {

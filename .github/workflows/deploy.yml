@@ -3,11 +3,32 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - src/**
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Repository name inside ua-pages
+        required: true
+        default: leaf-viewer-ua
+      ref:
+        description: Branch, tag, or commit to preview
+        required: true
+        default: agent/clarify-leaf-flow
+      source_path:
+        description: Directory containing the static site
+        required: true
+        default: web
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -16,10 +37,57 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Checkout production portal
+        uses: actions/checkout@v4
         with:
-          path: src
+          ref: main
+          path: portal
+
+      - name: Checkout preview source
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+        with:
+          repository: ua-pages/${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          path: preview-source
+
+      - name: Prepare Pages artifact
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PREVIEW_REPOSITORY: ${{ inputs.repository }}
+          SOURCE_PATH: ${{ inputs.source_path }}
+        run: |
+          mkdir -p pages
+          cp -R portal/src/. pages/
+          touch pages/.nojekyll
+
+          if [[ "$EVENT_NAME" != "workflow_dispatch" ]]; then
+            exit 0
+          fi
+
+          if [[ ! "$PREVIEW_REPOSITORY" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            echo "Invalid repository name"
+            exit 1
+          fi
+
+          if [[ -z "$SOURCE_PATH" || "$SOURCE_PATH" == /* || "$SOURCE_PATH" == *..* ]]; then
+            echo "Invalid source path"
+            exit 1
+          fi
+
+          if [[ ! -d "preview-source/$SOURCE_PATH" ]]; then
+            echo "Source directory does not exist: $SOURCE_PATH"
+            exit 1
+          fi
+
+          mkdir -p "pages/stage1/$PREVIEW_REPOSITORY"
+          cp -R "preview-source/$SOURCE_PATH/." "pages/stage1/$PREVIEW_REPOSITORY/"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages
+
       - id: deployment
         uses: actions/deploy-pages@v4
